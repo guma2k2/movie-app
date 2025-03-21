@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment = "page_head(title)" >
+  <meta charset="UTF-8">
+  <title>[[${title}]]</title>
+  <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}" ></script>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" ></script>
+  <link rel="stylesheet" type="text/css" th:href="@{/style-admin.css}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+  <script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
+<body>
+  <div th:fragment="sidebar" >
+    <div class="side-bar">
+      <header>
+        <div class="side-bar-admin" >
+          <span>Admin</span>
+        </div>
+      </header>
+      <div class="menu">
+        <div class="item dashboard active">
+          <a th:href="@{/admin}"><i class="fas fa-desktop"></i>Dashboard</a>
+        </div>
+        <div class="item user">
+          <a class="sub-btn" th:href = "@{/admin/user}" >
+            <i class="fas fa-users"></i>
+            Manage User
+          </a>
+        </div>
+        <div class="item movie">
+          <a th:href="@{/admin/movie}"><i class="fas fa-film"></i>Manage Movie</a>
+        </div>
+        <div class="item cinema">
+          <a th:href="@{/admin/cinema}"><i class="fas fa-video"></i>Manage Cinema</a>
+        </div>
+        <div class="item room">
+          <a th:href="@{/admin/room}"><i class="fas fa-kaaba"></i>Manage Room</a>
+        </div>
+        <div class="item schedule">
+          <a class="sub-btn schedule" th:href="@{/admin/schedule}">
+            <i class="fas fa-cogs"></i>
+            Manage Schedule
+          </a>
+        </div>
+        <div class="item settings">
+          <a class="sub-btn" th:href="@{/admin/settings}">
+            <i class="fas fa-cogs"></i>
+             Settings
+          </a>
+        </div>
+        <div class="item about">
+          <a th:href="@{/admin/about}"><i class="fas fa-info-circle"></i>About</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div th:fragment="headers" >
+    <div class="header">
+      <div class="menu-btn">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="account" >
+        <th:block th:if="${session.jwtToken != null}">
+          <div class="d-flex justify-content-center align-items-center">
+            <span>Xin chào, </span>
+            <a th:href="@{/admin/profile}" class="ml-2" th:text ="${session.fullName}" ></a>
+            <a  th:href="@{/logOut}" class="btn btn-outline-primary ml-2 my-sm-0" type="submit">Đăng xuất</a>
+          </div>
+        </th:block>
+      </div>
+    </div>
+  </div>
+<div th:fragment="modalConfirm" >
+  <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you want to delete this element ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="btnYes" >Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

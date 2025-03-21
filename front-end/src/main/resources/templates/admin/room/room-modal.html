@@ -1,0 +1,51 @@
+<div th:fragment="room-modal" >
+    <div id="room-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+        style="padding:10px;  margin:0 auto; ">
+        <div class="modal-dialog modal-lg" style="margin: 0 auto;" >
+            <div class="modal-content container">
+                <input type="hidden" name="roomId" value=""  />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add Room</h5>
+                    <button type="button" class="close border rounded" data-dismiss="modal" aria-label="Close" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" >
+                        <div class="col-6 p-2">
+                            <div class="row my-3" style="margin-left: 15px;">
+                                <label class="col-4">Name</label>
+                                <input class="col-8"  name="name" value=""  placeholder="Name" required />
+                            </div>
+                        </div>
+                        <div class="col-6 p-2">
+                            <div class="row my-3" style="margin-left: 15px;">
+                                <label class="col-4">Length</label>
+                                <input min="1" type="number" class="col-8"  name="length" value=""  placeholder="Length" required />
+                            </div>
+                        </div>
+                        <div class="col-6 p-2">
+                            <div class="row my-3" style="margin-left: 15px;">
+                                <label class="col-4">Width</label>
+                                <input min="1" type="number" class="col-8"  name="width" value=""  placeholder="Width" required />
+                            </div>
+                        </div>
+                        <div class="col-6 p-2">
+                            <div class="row my-3" style="margin-left: 15px;">
+                                <label class="col-4">Cinema</label>
+                                <select class="col-8" id="cinema-list-modal" >
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="update-room" >UPDATE</button>
+                    <button type="button" class="btn btn-primary" id="add-room" >ADD</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

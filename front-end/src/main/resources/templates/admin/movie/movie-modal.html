@@ -1,0 +1,105 @@
+<div th:fragment="movie-modal" >
+    <div id="movie-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+        style="padding:10px;  margin:0 auto; ">
+        <div class="modal-dialog modal-lg" style="margin: 0 auto;" >
+            <div class="modal-content container">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add Movie</h5>
+                    <button type="button" class="close border rounded" data-dismiss="modal" aria-label="Close" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="" name="movieId"/>
+                    <div class="row" >
+                        <div class="col-6 p-2">
+                            <div class="row my-3" >
+                                <label class="col-4">Title</label>
+                                <input class="col-8"  name="title" value=""  placeholder="Title" />
+                            </div>
+                            <div class="row mb-3 " >
+                                <label class="col-4">Description</label>
+                                <input class="col-8"  name="description" value=""  placeholder="Description" />
+                            </div>
+                            <div class="row mb-3 " >
+                                <label class="col-4">Duration</label>
+                                <input class="col-8" type="number" name="duration_minutes" value=""  placeholder="Duration(minute)" />
+                            </div>
+                            <div class="row mb-3 " >
+                                <label class="col-4">Release date</label>
+                                <input class="col-8" type="date"  name="release_date" value=""  placeholder="release_date" />
+                            </div>
+                            <div class="row mb-3 " >
+                                <label class="col-4">Language</label>
+                                <select class="language-list col-8" >
+                                    <th:block th:each="language : ${T(com.movie.frontend.model.LanguageDTO).values()}" >
+                                        <option th:value="${language}" th:text="${language.label}" ></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="row mb-3 " >
+                                <label class="col-4">Rating</label>
+                                <select class="rating-list col-8" >
+                                    <th:block th:each="rating : ${T(com.movie.frontend.model.RatingDTO).values()}" >
+                                        <option th:value="${rating}" th:text="${rating.label}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="row mb-3 " >
+                                <label class="col-4">Director</label>
+                                <input class="col-8"  name="director" value=""  placeholder="director" />
+                            </div>
+                            <div class="row mb-3 " >
+                                <label class="col-4">Cast</label>
+                                <input class="col-8"  name="cast" value=""  placeholder="cast" />
+                            </div>
+
+                            <div class="row mb-3 " >
+                                <label class="col-4">Trailer</label>
+                                <input class="col-8"  name="trailer" value=""  placeholder="trailer" />
+                            </div>
+                            <div class="row mb-3 " >
+                                <label class="col-4">Showing</label>
+                                <select class="showing col-8 " >
+                                    <option value="true" >True</option>
+                                    <option value="false" >False</option>
+                                </select>
+                            </div>
+                            <div class="row mb-3 " >
+                                <label class="col-4">Poster</label>
+                                <div class="col-8">
+                                    <form enctype="multipart/form-data" id="formImage" >
+                                        <input type="file" name="image"  id="fileImage" accept = "image/png , image/jpeg"/>
+                                        <img style="width:50px; height:50px; object-fit:cover; "  id = "thumbnail" alt="" src="">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 p-2" >
+                            <div class="row my-3" style="margin-left: 10px;" >
+                                <label class="col-4" >Genre</label>
+                                <select class="genre-list col-8" id="genre-list" multiple>
+                                    <th:block th:each="genre : ${genres}" >
+                                        <option th:value="${genre.name}" th:data-id="${genre.id}" >[[${genre.name}]]</option>
+                                    </th:block>
+                                </select>
+                            </div>
+
+                            <div class="row" style="margin-left: 10px;" >
+                                <label class="col-4 " >Selected genre: </label>
+                                <div class="col-8 border rounded" style="height:200px;"  id="selectedGenres"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="update-movie" >UPDATE</button>
+                    <button type="button" class="btn btn-primary" id="action-movie" >ADD</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

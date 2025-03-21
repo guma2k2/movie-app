@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "~{client/fragment :: page_head('Vincinema')}" />
+<body>
+<div th:replace = "~{client/fragment :: nav}" ></div>
+<div style="background:#fdfcf0;" >
+    <div class="container" >
+        <div class="row mt-5">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Đặt vé thất bại</h5>
+                        <p class="card-text">
+                        Đã xảy ra lỗi trong quá trình đặt vé</p>
+                        <a th:href="@{/}" class="btn btn-primary">Trang chủ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace = "~{client/fragment :: footer}"></div>
+</body>
+</html>

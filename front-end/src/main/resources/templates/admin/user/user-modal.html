@@ -1,0 +1,80 @@
+<div th:fragment="user-modal" >
+    <div id="user-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+        style="padding:10px;  margin:0 auto; ">
+        <div class="modal-dialog modal-lg" style="margin: 0 auto;" >
+            <div class="modal-content container">
+                <input type="hidden" name="userId" value=""  />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add User</h5>
+                    <button type="button" class="close border rounded" data-dismiss="modal" aria-label="Close" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="" name="roomId"/>
+                    <div class="row" >
+                        <div class="col-6 p-2">
+                            <div class="row my-3" style="margin-left: 15px;">
+                                <label class="col-4">FirstName</label>
+                                <input type="text" class="col-8"  name="firstName" value=""  placeholder="FirstName" required />
+                            </div>
+                        </div>
+                        <div class="col-6 p-2">
+                            <div class="row my-3" style="margin-left: 15px;">
+                                <label class="col-4">LastName</label>
+                                <input type="text" class="col-8"  name="lastName" value=""  placeholder="LastName" required />
+                            </div>
+                        </div>
+                        <div class="col-6 p-2">
+                            <div class="row my-3" style="margin-left: 15px;">
+                                <label class="col-4">Email</label>
+                                <input type="email" class="col-8"  name="email" value=""  placeholder="Email" required />
+                            </div>
+                        </div>
+                        <div class="col-6 p-2">
+                            <div class="row my-3" style="margin-left: 15px; position: relative; width: 100%;">
+                                <label class="col-4">Password</label>
+                                <div class="col-8" style="position: relative;">
+                                    <input min="8" type="password" class="form-control" name="password"
+                                           placeholder="Password" required style="width: 100%; padding-right: 40px;">
+                                    <i id="hidePassword" class="fas fa-eye"
+                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+                                    <i id="showPassword" class="fas fa-eye-slash"
+                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: none; cursor: pointer;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 p-2">
+                            <div class="row my-3" style="margin-left: 15px; position:relative; ">
+                                <label class="col-4">Photo</label>
+                                <div class="col-8" >
+                                    <form enctype="multipart/form-data" id="formImage" >
+                                        <input type="file" name="image"  id="fileImage" accept = "image/png , image/jpeg"/>
+                                        <img style="width:50px; height:50px; object-fit:cover; "  id = "thumbnail" alt="" src="">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 p-2">
+                            <div class="row my-3"  style="margin-left: 15px;">
+                                <label class="col-4">Role</label>
+                                <label class="col-8 d-flex flex-column " >
+                                    <th:block th:each="role : ${roles}" >
+                                        <div class="selection" >
+                                            <input class="role-checkbox"  type="checkbox"  th:value="${role.id}" th:name="${role.name}" />
+                                            <span style="margin-bottom: 10px;"  th:text="${role.name}"></span>
+                                        </div>
+                                    </th:block>
+                                </label>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="update-user" >UPDATE</button>
+                    <button type="button" class="btn btn-primary" id="add-user" >ADD</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

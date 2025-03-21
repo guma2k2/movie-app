@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "~{admin/fragment :: page_head('Manage Cinema')}" />
+<body>
+<div th:replace = "~{admin/fragment :: sidebar}" ></div>
+<div th:replace = "~{admin/cinema/cinema-modal :: cinema-modal}" ></div>
+    <div class="main">
+        <div th:replace = "~{admin/fragment :: headers}" ></div>
+        <div class="content" >
+            <input name="token" th:value="${token}"  type="hidden" />
+            <div class="container " style="background :#ffffff; margin-top:20px; " >
+                <div class="table-title" style="display:flex; justify-content: space-between; margin-top: 10px;margin-bottom: 10px;" >
+                    <div class="d-flex flex-column" >
+                        <h3 class="mt-2" >Table List Cinema</h3>
+                        <div class="action-search my-2 row" style="width: 350px;" >
+                            <label class="col-4" >Select city</label>
+                            <select class="col-8" id="city-list">
+                                <option value="all" >All cinema</option>
+                                <th:block th:each="city : ${cites}" >
+                                    <option th:value="${city.id}" th:text="${city.name}" ></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="btn btn-primary btn-add " style="height: 30px; margin-top: 15px;" >
+                        <i class="fas fa-plus" ></i>
+                        ADD
+                    </div>
+                </div>
+                <table class="table table-borderedtable-hover" style="background :#ffffff;" >
+                    <thead class="thead" style="background:#f5f5f5;" >
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th style="min-width:400px;" >Address</th>
+                            <th>Type</th>
+                            <th>City</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body" >
+                        <tr th:each="cinema : ${cinemas}">
+                            <td>[[${cinema.id}]]</td>
+                            <td>[[${cinema.name}]]</td>
+                            <td style="min-width:400px;" >[[${cinema.address}]]</td>
+                            <td>[[${cinema.cinema_type}]]</td>
+                            <td>[[${cinema.city.name}]]</td>
+                            <td>
+                                <a th:data-id="${cinema.id}"  class="fas fa-trash ml-2" href="#" style="color: #1b1918;" ></a>
+                                <a th:data-id="${cinema.id}" class="fas fa-edit ml-2 "  href="#" style="color: #1b1918;"  ></a>
+                            </td>
+                        </tr>
+                    </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" th:src ="@{/js/common/common_form.js}" ></script>
+<script type="text/javascript" th:src ="@{/js/admin/home.js}" ></script>
+<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
+<script type="text/javascript" th:src ="@{/js/admin/cinema.js}" ></script>
+</body>
+</html>

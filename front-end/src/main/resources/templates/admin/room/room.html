@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "~{admin/fragment :: page_head('Manage Room')}" />
+<body>
+<div th:replace = "~{admin/fragment :: sidebar}" ></div>
+<div th:replace = "~{admin/room/room-modal :: room-modal}" ></div>
+    <div class="main">
+        <div th:replace = "~{admin/fragment :: headers}" ></div>
+        <div class="content" >
+            <input type="hidden" name="cinemaName" th:value="${cinemaName}"  />
+            <input type="hidden" name="cityId" th:value="${cityId}"  />
+            <input type="hidden" name="token" th:value="${token}"  />
+            <div class="container " style="background :#ffffff; margin-top:20px; " >
+                <div class="table-title" style="display:flex; justify-content: space-between; margin-top: 20px; margin-bottom: 20px;" >
+                    <div class="action-search" >
+                        <h3 class="title" >Table List Room</h3>
+                        <div class="row"  style="width: 700px;" >
+                            <div class="col-6" >
+                                <div class="row" >
+                                    <label class="col-4" >City</label>
+                                    <select class="col-8" id="city-list">
+                                        <option value="all" >All city</option>
+                                        <th:block th:each="city : ${cites}" >
+                                            <option th:value="${city.id}" th:text="${city.name}"  ></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6" >
+                                <div class="row"  style="margin-left: 15px; height: 28px;" >
+                                    <label class="col-4" >Cinema</label>
+                                    <select class="col-8" id="cinema-list">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div id="addRoom" class="btn btn-primary" style="height: 40px;" >
+                            <i class="fas fa-plus" ></i>
+                            ADD
+                        </div>
+                        <button class="btn btn-primary actionRefresh ml-2" style="height: 40px;" >
+                            <i class="fa fa-solid fa-eraser"></i>
+                        </button>
+                    </div>
+                </div>
+                <input type="hidden" name="sortField" th:value="${sortField}"  />
+                <input type="hidden" name="sortDir" th:value="${sortDir}" />
+                <input type="hidden" name="totalPage" th:value = "${totalPage}"  />
+                <table class="table table-bordered table-hover" style="background :#ffffff;" >
+                    <thead class="thead" style="background:#f5f5f5;" >
+                        <tr>
+                            <th>
+                                <a href="#" class="sort-link"  data-field="id" >
+                                    Id
+                                    <i class="fas fa-arrow-down"  ></i>
+                                </a>
+                            </th>
+                            <th>
+                                <a href="#" class="sort-link" data-field="name" >
+                                    Name
+                                <i class="fas fa-arrow-down"  ></i>
+                            </a>
+                            </th>
+                            <th>Capacity (rows X columns)</th>
+                            <th>Cinema Name</th>
+                            <th>Action</th>
+                            <th>Manage Seat</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-list" >
+                        <tr th:each="room : ${rooms}">
+                            <td>
+                                [[${room.id}]]
+                            </td>
+                            <td>[[${room.name}]]</td>
+                            <td>[[${room.capacity}]]</td>
+                            <td>[[${room.cinemaName}]]</td>
+                            <td>
+                                <a th:data-id="${room.id}" class="fas fa-trash fa-2x ml-2 " href="#" style="color: #1b1918;" ></a>
+                                <a th:data-id="${room.id}"  class="fas fa-edit fa-2x ml-2"  href="#" style="color: #1b1918;"  ></a>
+                            </td>
+                            <td>
+                                <a class="fas fa-tasks fa-2x icon-dark" th:href = "@{'/admin/room/' + ${room.id} +'/seats'}" ></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example" class="margin: 10px auto;">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <th:block th:each = "i : ${#numbers.sequence(1, totalPage)}" >
+                            <li th:class="${currentPage == i ? 'page-item active' : 'page-item'}" th:data-page="${i}" >
+                                <a class="page-link" href="#">[[${i}]]</a>
+                            </li>
+                        </th:block>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
+<script type="text/javascript" th:src ="@{/js/admin/home.js}" ></script>
+<script type="text/javascript" th:src ="@{/js/admin/room.js}" ></script>
+</body>
+</html>

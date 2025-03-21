@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "~{admin/fragment :: page_head('Manage Cinema')}" />
+<body>
+<div th:replace = "~{admin/fragment :: sidebar}" ></div>
+<div class="main">
+    <div th:replace = "~{admin/fragment :: headers}" ></div>
+    <div class="content" >
+        <div class="container " style="background :#ffffff; margin-top:20px; " >
+            <div class="table-title" style="display:flex; justify-content: space-between; margin: 20px; padding:10px;" >
+                <h3>Search Event</h3>
+                <div class="action">
+                     <div class="btn btn-primary addAction" >Add</div>
+                </div>
+            </div>
+            <div class="row" style="font-size : 13px; margin-top: 10px; "  >
+                <input type="hidden" name="token" th:value ="${token}" />
+                <div class="col-6" style="padding:10px;">
+                    <div class="row" style="margin-top:10px; " >
+                        <label class="col-4" >City List</label>
+                        <select class="col-8" id="city-list" >
+                            <th:block th:each ="city : ${cites}" >
+                                <option th:value="${city.id}">[[${city.name}]]</option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="row" style="margin-top:10px; " >
+                        <label class="col-4" >Cinema List</label>
+                        <select class="col-8" id="cinema-list" >
+                        </select>
+                    </div>
+                    <div class="row" style="margin-top:10px; " >
+                        <label class="col-4" >Room List</label>
+                        <select class="col-8" id="room-list" >
+                        </select>
+                    </div>
+                    <div class="row" style="margin-top:10px; " >
+                        <label class="col-4" >Date: </label>
+                        <input  id="date" class="col-8" type="date" name="date" value="" />
+                    </div>
+                        <div id="buttonSearch" class="btn btn-primary" style="margin: 0 auto;" >Search</div>
+                </div>
+                <div class="col-6" style="padding:10px; display:flex; flex-direction: column; ">
+                    <table class="table table-bordered table-hover" style="background :#ffffff; margin:10px;" >
+                        <thead class="thead" style="background:#f5f5f5;" >
+                        <tr>
+                            <th>ID</th>
+                            <th>Movie Title</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-body" >
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container add-content" style="background :#ffffff; margin-top:20px; margin-bottom:20px; position:relative" >
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
+<script type="text/javascript" th:src ="@{/js/admin/home.js}" ></script>
+<script type="text/javascript" th:src ="@{/js/admin/scheduleCrud.js}" ></script>
+</body>
+</html>

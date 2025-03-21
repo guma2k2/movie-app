@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment = "page_head(title)" >
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}" ></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" ></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div th:fragment="nav">
+    <nav class="navbar navbar-expand-lg " style="background: url('https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg-top.png') repeat-x scroll left bottom transparent;
+                                background-size: 10px 135px; height: 135px;" >
+        <div class="container" >
+            <a class="navbar-brand ml-2" th:href="@{/}">
+                <img src="https://www.cgv.vn/skin/frontend/cgv/default/images/cgvlogo.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav" >
+                <ul class="navbar-nav" style="margin-top: 30px;" >
+                    <li class="nav-item dropdown">
+                        <a style="color: #2222222;line-height: 30px;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            PHIM
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a style="color: #2222222;line-height: 30px;" class="dropdown-item" th:href="@{/movies/isShowing}">Phim đang chiếu</a>
+                            <a style="color: #2222222;line-height: 30px;" class="dropdown-item" th:href="@{/movies/willShowing}">Phim sắp chiếu</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: #2222222;line-height: 30px;" class="nav-link" th:href="@{/cinemas}">RẠP CGV</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: #2222222;line-height: 30px;" class="nav-link" th:href="@{/tickets/history}">VÉ CỦA TÔI</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-nav ml-auto"  style="margin-top: 30px;">
+                <th:block th:if="${session.jwtToken == null}">
+                    <div class="authenticate-action d-flex ">
+                        <div class="auth-login mr-4">
+                            <a  th:href ="@{/login}" class="btn btn-outline-primary my-2 my-sm-0" type="submit" style="border: none; color: #2222222;line-height: 30px;">Login</a>
+                        </div>
+                        <div class="auth-register">
+                            <a th:href ="@{/register}" class="btn btn-outline-primary my-2 my-sm-0" type="submit" style="border: none; color: #2222222;line-height: 30px;">Register</a>
+                        </div>
+                    </div>
+                </th:block>
+                <th:block th:if="${session.jwtToken != null}">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <span style="color: #2222222;line-height: 30px;" >Hello, </span>
+                        <a th:href="@{/profile}" class="ml-2" th:text ="${session.fullName}" ></a>
+                        <a style="color: #2222222;line-height: 30px;"  th:href = "@{/logOut}" class="btn btn-outline-primary ml-2 my-sm-0" type="submit">Log out</a>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div th:fragment="footer">
+    <footer class="bg-dark text-white mt-4 ">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-uppercase">CGV Vietnam</h5>
+                    <p class="text-white-50">CGV là một trong những chuỗi rạp chiếu phim đa quốc gia lớn nhất Đông Nam Á, nổi tiếng với dịch vụ và chất lượng trình chiếu phim.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-uppercase">Địa chỉ</h5>
+                    <p class="text-white-50">Tầng 6, Toà nhà Vincom Center, 72 Lê Thánh Tôn, Quận 1, Tp.HCM</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-uppercase">Liên hệ</h5>
+                    <p class="text-white-50"><i class="fas fa-phone-alt"></i> 1900 6017</p>
+                    <p class="text-white-50"><i class="fas fa-envelope"></i> cgv_customer@cinemagroup.com.vn</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-dark py-2">
+            <div class="container text-center">
+                <p class="text-white-50 mb-0">&copy; 2023 CGV Vietnam. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+</div>
+<div th:fragment = "modal-booking" >
+    <div class="modal fade" id="ticket-modal" tabindex="-1" role="dialog" aria-labelledby="ticket-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content"  >
+                <div class="modal-body" >
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: relative;" >
+                        <span style="position: absolute; top: 5px; right: 5px;" aria-hidden="true">&times;</span>
+                    </button>
+                    <div id="date-selection"></div>
+                    <div id="city-selection"></div>
+                    <div id="sub-selection"></div>
+                    <div id="cinema-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

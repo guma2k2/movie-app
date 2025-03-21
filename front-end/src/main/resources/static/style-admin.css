@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: "Poppins", sans-serif;
+ font-size: 14px;
+}
+
+body{
+ min-height: 100vh;
+ background: white;
+ color: #1f1f1f;
+ background-size: cover;
+ background-position: center;
+}
+
+
+.side-bar::-webkit-scrollbar {
+  width: 0px;
+}
+.side-bar-admin span {
+    /* margin: 0 auto; */
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.side-bar .menu{
+ width: 100%;
+ margin-top: 5px;
+}
+
+.side-bar .menu .item{
+ position: relative;
+ cursor: pointer;
+}
+
+.side-bar .menu .item a{
+ color: #1f1f1f;
+ font-size: 13px;
+ text-decoration: none;
+ display: block;
+ padding: 5px 20px;
+ line-height: 40px;
+}
+a {
+    text-decoration: none;
+}
+input {
+    padding-right: 10px;
+}
+
+.side-bar .menu .item a:hover{
+ background: #ebe7e7;
+ transition: 0.3s ease;
+}
+
+.side-bar .menu .item i{
+ margin-right: 15px;
+}
+
+.side-bar .menu .item a .dropdown{
+ position: absolute;
+ right: 5px;
+ top: 20px;
+ transition: 0.3s ease;
+}
+.side-bar .menu .item .sub-menu{
+ background:#ffffff;
+ display: none;
+}
+.btn{
+   cursor: pointer ;
+}
+.page-item.active{
+    color: white ;
+    background: black;
+}
+
+.page-link .active {
+    color: white ;
+    background: black;
+}
+.side-bar .menu .item .sub-menu {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.rotate{
+ transform: rotate(90deg);
+}
+
+.close-btn{
+ position: absolute;
+ color: #1f1f1f;
+ font-size: 23px;
+ right:  0px;
+ margin: 15px;
+ cursor: pointer;
+}
+
+.fas fa-angle-right dropdown {
+     position: absolute;
+     top: 20px;
+     margin-left: 10px;
+     transition: 0.3s ease;
+}
+
+.menu-btn{
+ color: rgb(0, 0, 0);
+ font-size: 35px;
+ cursor: pointer;
+ margin-left: 20px;
+}
+.menu-btn .fa-bars {
+    margin: 0 auto;
+}
+.main{
+ height: 100vh;
+ background: #f5f5f5;
+ width: calc(100% - 200px);
+ margin-left: 200px;
+ position: relative;
+}
+
+@media (max-width: 900px){
+ .main h1{
+   font-size: 40px;
+   line-height: 60px;
+ }
+}
+header{
+    background:#ffffff;
+    line-height: 50px;;
+}
+.header {
+    width: 100%;
+    height: 50px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    align-items: center;
+    justify-center:space-around;
+    position: relative;
+}
+
+.account {
+   top: 10px ;
+   right: 10px;
+   position:absolute;
+}
+.couple{
+  background: #3399cc;
+  color: #fff;
+  border-color: #3399cc;
+}
+.none {
+  background: #da8884;
+  border: none;
+}
+.seat {
+  border: 1px solid #ccc;
+  width: 23px;
+  height: 23px;
+  margin: 1px;
+  padding: 1px 0 ;
+  font-size: 11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor: pointer;
+}
+.normal {
+  border: 1px solid #01c73c;
+}
+.vip {
+  border: 1px solid #f71708;
+}
+.deluxe {
+  color: #fff;
+  border : 1px solid #840042;
+  background: #840042;
+}
+.sweetbox {
+  background: #FF62B0;
+  color : #fff;
+  border-color: #FF62B0;
+}
+.king {
+  background: #FF62B0;
+  color: #fff;
+}
+/* .side-bar{
+    background:#ffffff;
+    backdrop-filter: blur(15px);
+    width: 200px;
+    height: 100vh;
+    color: #1f1f1f;
+    overflow-y: auto;
+    transition: 1s ease;
+    float: left;
+} */
+.main {
+    height: 100vh;
+    background: #f5f5f5;
+    width: calc(100% - 200px);
+    position: fixed;
+    overflow-y: auto;
+    transition: all 0.5s ease;
+    left: 0;
+  }
+
+  .side-bar {
+    background: #ffffff;
+    backdrop-filter: blur(15px);
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    color: #1f1f1f;
+    overflow-y: auto;
+    transition: left 0.5s ease;
+    left: 0;
+  }
+
+.side-bar.active{
+    left: -200px;
+}
+.main.active {
+    left: -200px;
+    width: 100%;
+}
+.item.active{
+    background: #e7f4ff;
+
+}
+.side-bar .menu .item.active a {
+    color:#1677ff;
+}
+.side-bar .menu .item.active .sub-menu a {
+    color: #1f1f1f;
+}
+.side-bar .menu .item.active .sub-menu.active {
+    background: #e7f4ff;
+}
+.side-bar .menu .item.active .sub-menu.active a {
+    color:#1677ff;
+}
+a {
+    text-decoration: none ;
+}
+.icon-green{
+    color: green ;
+}
+.icon-dark {
+    color: black ;
+}
+.imageTable{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+.fa-check-circle{
+    cursor: pointer ;
+}

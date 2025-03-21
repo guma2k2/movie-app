@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "~{client/fragment :: page_head('Vincinema')}" />
+<body>
+<div th:replace = "~{client/fragment :: nav}" ></div>
+<div class="container" style="width:978px; margin: 0 auto; " >
+    <div th:if="${message != null}" class="alert alert-success mt-3 text-center" role="alert">
+        [[${message}]]
+    </div>
+    <div class="mt-3" >
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+            </ol>
+            <div class="carousel-inner">
+                <th:block th:each = "slider,status : ${sliders}" >
+                    <div th:class="${status.index == 0 ? 'carousel-item active': 'carousel-item'}">
+                        <img th:src="@{${slider}}"  alt="" style="height: 447px; width:100%;" />
+                    </div>
+                </th:block>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true" style="height: 52px; width: 26px;" ></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true" style="height: 52px; width: 26px;"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    <div class="home-movie-selection my-2">
+        <div class="home-title" >
+            <h2>movie selection</h2>
+        </div>
+    </div>
+    <div id="loading"  ></div>
+    <div class="row mt-3" >
+        <th:block th:each = "movie : ${movies}" >
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <img th:src="@{${movie.photosImagePath}}" class="card-img-top" th:alt="${movie.title}">
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate" th:text="${movie.title}"></h5>
+                    </div>
+                    <div class="cart-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-block" th:id="'buy-ticket-btn'+ ${movie.id}" th:movieId = "${movie.id}" >Buy</button>
+                            </div>
+                            <div class="col-6">
+                                <a th:href ="@{'/movie/' + ${movie.id}}" class="btn btn-primary btn-block">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+<div th:replace = "~{client/fragment :: footer}"></div>
+<div th:replace = "~{client/fragment :: modal-booking}"></div>
+<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
+<script type="text/javascript" th:src = "@{/js/client/Event.js}"></script>
+</body>
+</html>

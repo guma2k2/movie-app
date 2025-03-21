@@ -1,0 +1,42 @@
+<div th:fragment="content" >
+  <input type="hidden" value="" name="movieId"/>
+  <div class="row" >
+    <div class="col-6 p-2">
+      <div class="row my-3" >
+        <label class="col-4">Name</label>
+        <input class="col-8"  name="name" value=""  placeholder="name" required />
+      </div>
+    </div>
+    <div class="col-6 p-2">
+      <div class="row ml-2 my-3" >
+        <label class="col-4">Address</label>
+        <input class="col-8"  name="address" value=""  placeholder="Address" required />
+      </div>
+    </div>
+    <div class="col-6 p-2">
+      <div class="row my-3" >
+        <label class="col-4">Type</label>
+        <select class="col-8" id="types" >
+          <option value="Rạp 2D" >Rạp 2D</option>
+          <option value="Rạp PREMIUM" >Rạp Premium</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-6 p-2">
+      <div class="row ml-2  my-3" >
+        <label class="col-4">Fax</label>
+        <input class="col-8"  name="phone_number"  value="" required placeholder="Phone number"  />
+      </div>
+    </div>
+    <div class="col-6 p-2">
+      <div class="row my-3" >
+        <label class="col-4">City</label>
+        <select class="col-8" id="city-list-modal">
+          <th:block th:each="city : ${cites}" >
+            <option th:value="${city.id}" th:text="${city.name}"></option>
+          </th:block>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

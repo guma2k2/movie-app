@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "~{client/fragment :: page_head('Vincinema')}" />
+<body>
+<div th:replace = "~{client/fragment :: nav}" ></div>
+<div id="loading"  ></div>
+<div class="bread-crumb" style="width: 100%; height: 30px; margin-bottom: 50px; " >
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="width:100%; background: #f1f0e5;" >
+            <div class="container d-flex" style="width:978px; margin: 0 auto; gap:5px; " >
+                <li class="breadcrumb-item d-flex " style="gap:5px;"  >
+                    <a th:href="@{/vincinema}">
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item d-flex" style="gap:5px;"  >
+                    <span>Phim</span>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <strong style="color: #222;  font-weight: bold ; text-decoration: underline ;
+                                   text-transform: capitalize; white-space: nowrap;"/> Phim sắp chiếu</strong>
+                </li>
+            </div>
+        </ol>
+    </nav>
+</div >
+<div class="container category-title " style="width:978px; margin: 35px auto; border-bottom:3px solid #241d1e; position:relative; "  >
+    <h1 style="font-size: 38px ; color: #222; font-weight:normal;" >Phim Sắp Chiếu</h1>
+    <div class="sub-category" style="position: absolute; right: 0 ; bottom: 10px; " >
+        <a th:href="@{/vincinema/movies/isShowing}" style="font-size: 20px; padding-left: 15px; color: #666; white-space: no-wrap; text-transform: uppercase;
+                            text-decoration:none; " >
+            Phim Đang Chiếu
+        </a>
+    </div>
+</div>
+<div class="container mt-2" style="width:978px; margin: 0 auto; border-bottom:3px solid #241d1e;  " >
+    <div class="row mt-3" >
+        <th:block th:each = "movie : ${movies}" >
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <img th:src="@{${movie.photosImagePath}}" class="card-img-top" th:alt="${movie.title}">
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate" th:text="${movie.title}"></h5>
+                    </div>
+                    <div class="cart-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-block" th:id="'buy-ticket-btn'+ ${movie.id}" th:movieId = "${movie.id}" >Buy</button>
+                            </div>
+                            <div class="col-6">
+                                <a th:href ="@{'/vincinema/movie/' + ${movie.id}}" class="btn btn-primary btn-block">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+<div th:replace = "~{client/fragment :: footer}"></div>
+<div th:replace = "~{client/fragment :: modal-booking}"></div>
+<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
+<script type="text/javascript" th:src = "@{/js/client/Event.js}"></script>
+</body>
+</html>

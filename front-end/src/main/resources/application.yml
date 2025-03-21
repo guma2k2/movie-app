@@ -1,0 +1,12 @@
+application:
+    slider:
+        image4: https://www.cgv.vn/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/9/8/980x448_205.jpg
+        image1: https://www.cgv.vn/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/9/8/980wx448h_27.jpg
+        image2: https://www.cgv.vn/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/9/8/980wx448h_1_5.jpg
+        image3: https://www.cgv.vn/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/9/8/980x448_-min_7.jpg
+server:
+    port : 8000
+api:
+    url: http://localhost:8080/api/v1
+
+

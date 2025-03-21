@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "~{client/fragment :: page_head('Vincinema')}" />
+<body>
+<div th:replace = "~{client/fragment :: nav}" ></div>
+<div id="loading"></div>
+<th:block th:if="${session.jwtToken != null}">
+    <input type="hidden" name="username" th:value="${session.fullName}"  />
+</th:block>
+<div class="container" style="background:#fdfcf0; min-height: 380px;">
+    <form id="overTime" th:action ="@{'/booking/' + ${event.id}}" style="display:none;" method="get" ></form>
+    <div class="page-title row mt-4" style="background: #231d1c; padding: 5px ; margin-bottom: 30px; width:100%" >
+        <h1 class="col-12 text-center" style="color: #fff; line-height: 32px; text-transform:uppercase; " >Thanh toán</h1>
+    </div>
+    <div class="row d-flex" style="width:100%" >
+        <div class="col-8 border rounded" style="max-height: 670px;" >
+            <form th:action="@{/tickets/create}" method="post" id="form-payment">
+                <input id="eventId" type="hidden" name="eventId" th:value="${event.id}" />
+                <input id="bookingId" type="hidden" name="bookingId" th:value="${bookingId}" />
+                <input id="token" type="hidden" name="token" th:value="${token}" />
+                <input id="totalPrice" type="hidden" name="totalPrice" th:value="${totalPrice}" />
+                <div class="form-group row my-4 ">
+                    <label class="col-4" >fullName: </label>
+                    <input name="fullName" type="text" class="form-control col-8"  placeholder="Enter your name" required >
+                </div>
+                <div class="form-group row mb-4 ">
+                    <label class="col-4" >Name of banking: </label>
+                    <select  type="text" class="form-control col-8"  placeholder="Enter your banking" name="banking" required >
+                        <option value="MBBANK">MB BANK</option>
+                        <option value="NCB">Ngân hàng NCB</option>
+                        <option value="ARGIBANK" >ARGIBANK</option>
+                        <option value="VIETCOMBANK" >VIETCOMBANK</option>
+                        <option value="TECHCOMBANK" >TECHCOMBANK</option>
+                    </select>
+                </div>
+                <div class="form-group row mb-4 ">
+                    <label class="col-4" >SDT: </label>
+                    <input name="SDT" type="text" class="form-control col-8"  placeholder="Enter your sdt" required>
+                </div>
+            </form>
+        </div>
+        <div class="col-4 d-flex flex-column "  >
+            <div class="total mb-2 border rounded d-flex flex-column " style="background: #fff1ce; min-height: 76px;">
+                <div class="total-label text-center " style="font-weight: bold; height: 38px; " >Tổng cộng</div>
+                <div class="total-price text-center " style="color:#222; font-size:14px; line-height:18px; height: 38px; background:#d0cece;" >[[${formattedPrice}]] đồng </div>
+            </div>
+            <div class="total mb-2  border rounded d-flex flex-column " style="background: #fff1ce;min-height: 76px; ">
+                <div class="total-label text-center " style="font-weight: bold;height: 38px; " >Khuyễn mãi</div>
+                <div class="total-price text-center " style="color:#222; font-size:14px; height: 38px; line-height:18px; background:#d0cece;" >0.0 d</div>
+            </div>
+            <div class="total mb-2  border rounded d-flex flex-column  " style="min-height: 76px;" >
+                <div class="total-label text-center " style="font-weight: bold; background:#e71a0f; height: 38px;  color: #fff;" >Tổng tiền thanh toán</div>
+                <div class="total-price text-center " style="color:#222; font-size:14px; line-height:18px; height: 38px; background:#d0cece;" >[[${formattedPrice}]] đồng </div>
+            </div>
+            <div class="right-info clock" >
+                <h3 id="clock-title text-center" style="background:#fff1ce; padding:10px; font-weight:bold; font-size:13px " >Countdown clock</h3>
+                <div id="countdown" class="d-flex align-items-center justify-content-center " style=" gap:5px;   background:#d0cece;  " >
+                    <div class=" d-flex flex-column align-items-center justify-content-between " >
+                        <span id="minute" class="time"></span>
+                        <div>Minutes</div>
+                    </div>
+                    <div class="d-flex flex-column align-items-center justify-content-between ">
+                        <span id="second" class="time "></span>
+                        <div>Seconds</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" style="margin-top: 20px;" >
+    <div class="row border rounded p-2 " style=" background-color: #000;  height : 200px; width:100%;">
+        <div id="btn-cancel" class="col-2 p-3  d-flex flex-column justify-content-center align-items-center " style="float: none; display: inline-block;
+                                            height: 110px; border-radius : 5px; cursor:pointer;  vertical-align: top; width:100px;  background: #222; color: #cccccc;"  data-tab="tab1">
+            <i class="fa fa-solid fa-arrow-left mt-4 mb-3 fa-3x "></i>
+            <span>PREV</span>
+        </div>
+        <div class="col-8 d-flex justify-content-around p-2" style="color : #cccccc;" >
+            <div class="product-details p-1 d-flex " style="border-right: 2px dotted #58595b;" >
+                <img th:src = "@{${event.movie.photosImagePath}}" style="width: 74px; height: 108px" />
+                <span class="product-title ml-2" style="word-wrap: break-word; width:123px;"  th:text = "${event.movie.title}" ></span>
+            </div>
+            <div id="seat-list" style="border-right: 2px dotted #58595b; height: 128px; min-width: 270px; ">
+                <div class="row" >
+                    <label class="col-4" >Rạp </label>
+                    <span class="col-8" th:text="${event.cinemaName}" ></span>
+                </div>
+                <div class="row" >
+                    <label class="col-4" >Suất chiếu </label>
+                    <span class="col-8" >
+                        <span th:text="${#temporals.format(event.start_date, 'dd/MM/yyyy')}">
+                        </span>
+                        &nbsp;
+                        <span th:text="${event.start_time}">
+                        </span>
+                    </span>
+                </div>
+                <div class="row" >
+                    <label class="col-4" >Phòng chiếu </label>
+                    <span class="col-8" style="word-wrap: break-word;" th:text="${event.room.name}" ></span>
+                </div>
+                <div class="row" id="seat-container" >
+                    <div class="col-4" id="seats-label">Ghế</div>
+                    <span id="seats" class="col-8" >[[${seats}]]</span>
+                </div>
+            </div>
+            <div class="product-details" style="border-right: 2px dotted #58595b; height:128px; width:206px; " >
+                <div class="row" >
+                    <label class="col-4" >Price: </label>
+                    <div class="col-8 pl-2">
+                        <span>[[${formattedPrice}]] đồng</span>
+                    </div>
+                </div>
+                <div class="row" >
+                    <label class="col-4" >Combo: </label>
+                    <div class="col-8 pl-2 " >
+                        <span>0.0d</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-4" style="color: red;" >Tổng: </label>
+                    <div class="col-8 pl-2 " >
+                       <span>[[${formattedPrice}]] đồng </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="btn-payment" class="col-2 p-3 d-flex flex-column justify-content-center align-items-center"
+             style="float: none; display: inline-block;
+                    height: 110px; vertical-align: top;  width:100px; background: #e71a0f; color: #cccccc;
+                    border-radius : 5px; cursor:pointer;  "    data-tab="tab2">
+            <i class="fa fa-solid fa-arrow-right mt-4 mb-3 fa-3x "></i>
+            <span>Payment</span>
+        </div>
+</div>
+</div>
+
+<div th:replace = "~{client/fragment :: footer}"></div>
+<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
+<script type="text/javascript" th:src ="@{/js/client/ticket.js}" ></script>
+</body>
+</html>

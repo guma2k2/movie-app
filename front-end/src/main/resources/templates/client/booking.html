@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace = "~{client/fragment :: page_head('Vincinema')}" />
+<body>
+<div th:replace = "~{client/fragment :: nav}" ></div>
+<th:block th:if="${session.jwtToken != null}">
+    <input type="hidden" name="username" th:value="${session.fullName}"  />
+</th:block>
+<input type="hidden" name="eventId" th:value="${event.id}"   />
+<div class="container" >
+    <div id="loading"></div>
+    <form  id="form-booking" method="post" th:action ="@{/booking/create}" style=" width:100%; margin: 0 auto; "  >
+        <div th:if="${error != null}"  class="text-center alert alert-danger" role="alert"  >
+            [[${error}]]
+        </div>
+        <input name="eventId" th:value ="${event.id}"  type="hidden" />
+        <div class="page-title mt-4 text-center" style="width:100%; height:34px; background: #231d1c;" >
+            <div  style="text-transform: uppercase; color: #fff; line-height:32px; text-align: center; margin: 0 auto; " >BOOKING ONLINE</div>
+        </div>
+        <div class="border rounded " style="width: 100%; padding:10px; border-bottom: 2px solid #d4d3c9;
+                                                background: #fff1ce; margin-bottom:20px; overflow: hidden; min-height:126px; ">
+            <div class="left-info" style="width:65%; font-weight:bold;float:left; overflow: hidden; " >
+                <p>[[${event.cinemaName}]] | [[${event.room.name}]] | So ghe([[${remainSeat}]]/[[${lengthOfRoom}]]) </p>
+                <p> [[${event.startTime}]] ~ [[${event.endTime}]] </p>
+            </div>
+            <div class="right-info clock" style="width:35%; float:right; text-align:right; clear:right; padding:10px; display:none; " >
+                <h3 id="clock-title" style="margin-bottom: 10px; color: #222; font-size:18px; font-style:normal;" >Countdown clock</h3>
+                <div id="countdown" class="d-flex" style="display:none; position:relative;" >
+                    <div class="minutes time-parent d-flex flex-column align-items-center justify-content-between " >
+                        <span id="minute" class="mr-2 time "></span>
+                        <div>Minutes</div>
+                    </div>
+                    <div class="seconds time-parent d-flex flex-column align-items-center justify-content-between ">
+                        <span id="second" class="mr-2 time "></span>
+                        <div>Seconds</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab d-flex flex-column border rounded" style="width:100%; border: 2px solid #d4d3c9;  transition: transform 0.3s ease-in-out; " >
+            <div class="col-12 text-center booking-title" style="width: 100%; height: 34px; background: #bcbdc0; font-size: 16px; line-height:32px;">
+                Người / Ghế
+            </div>
+
+            <div id="tab1"  class="col-12 tabcontent show mb-3 " style="height: 600px; width:100%;" data-tab="tab1" >
+                <div class="row screen" style="width : 100%; height: 45px; margin: 20px auto 40px; text-align: center;
+                     background: url('https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/bg-screen.png') no-repeat top center transparent;
+                     background-size: 100% auto ; ">
+                </div>
+                <div class="seats d-flex justify-content-center align-items-center " style="min-height: 500px; max-height: 970px;" >
+                  <div class="d-flex flex-wrap align-items-center justify-content-center " th:style = " 'width: calc(23px * '+ ${col_num} + ' + 1px * 2 * '+${ col_num }+ ' );' "  >
+                    <th:block th:each="rowNum : ${#numbers.sequence(1, row_num)}">
+                        <th:block th:each="colNum : ${#numbers.sequence(1, col_num)}">
+                                <th:block th:each ="seat : ${seats}">
+                                    <th:block  th:if="${seat.row_num == rowNum and seat.column_num == colNum and seat.empty == false} " >
+                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).NORMAL}">
+                                            <span th:class="${seat.paid == true ? 'seat unavailable ' : seat.reserved == true ? 'seat reserved' : 'seat normal'}" th:text="${seat.seat_name}"
+                                             th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}" >
+                                            </span>
+                                        </th:block>
+                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).VIP}">
+                                            <span th:class="${seat.paid == true ? 'seat unavailable ' : seat.reserved == true ? 'seat reserved' : 'seat vip'}" th:text="${seat.seat_name}"
+                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}" >
+                                            </span>
+                                        </th:block>
+                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).SWEETBOX}">
+                                            <span th:class="${seat.paid == true ? 'seat unavailable ' : seat.reserved == true ? 'seat reserved' : 'seat sweetbox'}" th:text="${seat.seat_name}"
+                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}" >
+                                            </span>
+                                        </th:block>
+                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).KING}">
+                                            <span th:class="${seat.paid == true ? 'seat unavailable ' : seat.reserved == true ? 'seat reserved' : 'seat king'}" th:text="${seat.seat_name}"
+                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}" >
+                                            </span>
+                                        </th:block>
+                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).COUPLE}">
+                                            <span th:class="${seat.paid == true ? 'seat unavailable ' : seat.reserved == true ? 'seat reserved' : 'seat couple'}" th:text="${seat.seat_name}"
+                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}" >
+                                            </span>
+                                        </th:block>
+                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).DELUXE}">
+                                            <span th:class="${seat.paid == true ? 'seat unavailable ' : seat.reserved == true ? 'seat reserved' : 'seat deluxe'}" th:text="${seat.seat_name}"
+                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}" >
+                                            </span>
+                                        </th:block>
+                                    </th:block>
+                                    <th:block  th:if="${seat.row_num == rowNum and seat.column_num == colNum and seat.empty == true} " >
+                                        <span class="seat_none"></span>
+                                    </th:block>
+                                </th:block>
+                           </th:block>
+                    </th:block>
+                  </div>
+                </div>
+                <div class="seats-notice d-flex align-items-center justify-content-center" style="height: 80px;" >
+                    <div class="icon-list d-flex flex-column ml-3">
+                        <div class="icon-item d-flex ">
+                            <div class="seat checked p-2 icon" ></div>
+                            <span class="seat-label p-2 ">Checked</span>
+                        </div>
+                        <div class="icon-item d-flex ">
+                            <div class="seat reserved p-2 icon"></div>
+                            <span class="seat-label p-2 ">Đã chọn</span>
+                        </div>
+                        <div class="icon-item d-flex ">
+                            <div class="seat unavailable p-2 icon"></div>
+                            <span class="seat-label p-2 ">Không thể chọn</span>
+                        </div>
+                    </div>
+                    <div class="icon-list d-flex flex-column ml-3">
+                        <th:block th:each = "type : ${types}" >
+                            <th:block th:if = "${type == 'NORMAL'}" >
+                                <div class="icon-item d-flex ">
+                                    <div class="seat normal p-2 icon "></div>
+                                    <span class="seat-label p-2 ">Thường</span>
+                                </div>
+                            </th:block>
+                            <th:block th:if = "${type == 'VIP'}" >
+                                <div class="icon-item d-flex ">
+                                    <div class="seat vip p-2 icon "></div>
+                                    <span class="seat-label p-2 ">VIP(Prime)</span>
+                                </div>
+                            </th:block>
+                            <th:block th:if = "${type == 'SWEETBOX'}" >
+                                <div class="icon-item d-flex ">
+                                    <div class="seat sweetbox p-2 icon "></div>
+                                    <span class="seat-label p-2 ">Sweetbox</span>
+                                </div>
+                            </th:block>
+                            <th:block th:if = "${type == 'DELUXE'}" >
+                                <div class="icon-item d-flex ">
+                                    <div class="seat deluxe p-2 icon "></div>
+                                    <span class="seat-label p-2 ">Deluxe</span>
+                                </div>
+                            </th:block>
+                            <th:block th:if = "${type == 'COUPLE'}" >
+                                <div class="icon-item d-flex ">
+                                    <div class="seat couple p-2 icon "></div>
+                                    <span class="seat-label p-2 ">Couple</span>
+                                </div>
+                            </th:block>
+                            <th:block th:if = "${type == 'KING'}" >
+                                <div class="icon-item d-flex ">
+                                    <div class="seat king p-2 icon "></div>
+                                    <span class="seat-label p-2 ">KING</span>
+                                </div>
+                            </th:block>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div id="tab2" class="tabcontent" data-tab="tab2"style="margin-bottom: 20px;" >
+                <div class="row d-flex flex-wrap mt-2">
+                    <th:block th:each = "combo : ${combos}">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img th:src = "@{${combo.img_url}}" style="height: 153px; width: 153px" th:alt="${combo.title}" />
+                                </div>
+                                <div class="col-8 d-flex flex-column">
+                                    <div class="combo-title mt-2" style="font-weight: bold ;" th:text = "${combo.title}" ></div>
+                                    <div class="combo-desc mt-2" th:text ="${combo.description}" style="white-space: pre-line; word-wrap: break-word;" ></div>
+                                    <div class="combo-price mt-2">
+                                        <span>Giá</span>&nbsp;
+                                        <span th:text="${#numbers.formatInteger(combo.price, 0, 'COMMA')}"
+                                              style="color: #000; font-weight: bold; font-size: 14px;"></span>&nbsp;
+                                        <span>đồng</span>
+                                    </div>
+                                    <div class="combo-action" style="height: 33px;">
+                                        <div th:id="'minus'+${combo.id}" th:data-price = "${combo.price}" class="fa fa-minus mr-2 p-2" style="width:25px; height: 31px; cursor:pointer; background: #e71a0f ; color:#FFFFFF; "  ></div>
+                                        <input th:id="'combo'+${combo.id}" th:name="${combo.title}" class="p-1" value="0"  style="width:33px; height:33px;  background: #FFFFFF ;"  />
+                                        <div th:id="'plus'+${combo.id}" th:data-price = "${combo.price}" class="fa fa-plus ml-2 p-2" style="width:25px; height: 31px; cursor:pointer; background: #e71a0f ;color: #FFFFFF; " ></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+        <div class="border rounded p-2 " style=" background-color: #000;  height : 200px; width:100%;">
+            <div class="row p-2" >
+                <div id="btn-tap1"  class="btn col-2 pr-2 tablinks active d-flex flex-column justify-content-center align-items-center "
+                     style="float: none; display: inline-block;
+                            height: 110px; vertical-align: top; width:100px;  background: #222; color: #cccccc;
+                            border-radius : 5px; cursor:pointer; "
+                     data-tab="tab1">
+                    <i class="fa fa-solid fa-arrow-left mt-4 mb-3 fa-3x "></i>
+                    <span>PREVIOUS</span>
+                </div>
+                <div class="col-8 d-flex justify-content-around" style="color : #cccccc;" >
+                    <div class="product-details p-2 d-flex ">
+                        <img th:src = "@{${event.movie.photosImagePath} }" style="width: 74px; height: 108px" />
+                        <span class="product-title ml-2" style="word-wrap: break-word;"  th:text = "${event.movie.title}" ></span>
+                    </div>
+                    <div id="seat-list">
+                        <div class="row" >
+                            <label class="col-4" >Rạp</label>
+                            <span class="col-8" th:text="${event.cinemaName}" ></span>
+                        </div>
+                        <div class="row" >
+                            <label class="col-4" >Suất<br>chiếu</label>
+                            <span class="col-8" >
+                                    <span th:text="${#temporals.format(event.start_date, 'dd/MM/yyyy')}">
+                                    </span>
+                                    <br>
+                                    <span th:text="${event.start_time}">
+                                    </span>
+                                </span>
+                        </div>
+                        <div class="row" >
+                            <label class="col-4" >Phòng<br>chiếu</label>
+                            <span class="col-8" style="word-wrap: break-word;" th:text="${event.room.name}" ></span>
+                        </div>
+                        <div class="row mb-3" id="seat-container" >
+                            <div class="col-4" id="seats-label"></div>
+                            <input style="word-wrap: break-word;" class="col-8 form-input pl-2" id="selected-seats"
+                                   type="text" name = "seats" />
+                        </div>
+                    </div>
+                    <div class="product-details">
+                        <div class="row" >
+                            <label class="col-4" >Combo </label>
+                            <div class="col-8"  >
+                                <input id="price-combo" class="form-input" value="0" name="total-combo" type="hidden" />
+                                <input id="price-combo-formatted" class="form-input" value="0" name="total-combo-formatted" type="text" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-4" >Tổng</label>
+                            <div class="col-8" >
+                                <div id="total-price-normal" th:data-price = "${event.price}" ></div>
+                                <div  id="total-price-vip" th:data-price = "${event.price+5000}" ></div>
+                                <div  id="total-price-king" th:data-price = "${event.price*1.5}" ></div>
+                                <div  id="total-price-couple" th:data-price = "${event.price*2 + 5000}" ></div>
+                                <div  id="total-price-sweetbox" th:data-price = "${event.price*2 + 5000}" ></div>
+                                <div  id="total-price-deluxe" th:data-price = "${event.price*2}" ></div>
+                                <input class ="form-input"  id="total-price" name ="totalPrice" value="0" type="hidden" />
+                                <input class ="form-input"  id="total-price-formatted" name ="totalPriceFormatted" value="0" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn col-2  pl-2 d-flex flex-column tablinks justify-content-center align-items-center"
+                     style="float: none; display: inline-block;
+                            height: 110px; vertical-align: top;  width:100px; background: #e71a0f; color: #cccccc;
+                            border-radius : 5px; cursor:pointer; "
+                     data-tab="tab2">
+                    <i class="fa fa-solid fa-arrow-right mt-4 mb-3 fa-3x "></i>
+                    <span>NEXT</span>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
+<script type="text/javascript" th:src ="@{/js/client/Booking.js}" ></script>
+</body>
+</html>
