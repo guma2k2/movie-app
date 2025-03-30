@@ -149,7 +149,7 @@ public class MovieService {
     }
 
     public List<MovieDTO> listAll() {
-        return movieRepository.findAll()
+        return movieRepository.findAllCustom()
                 .stream()
                 .map(movie -> modelMapper.map(movie,MovieDTO.class))
                 .collect(Collectors.toList());

@@ -1,81 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace = "~{admin/fragment :: page_head('Manage Room')}" />
+
+<head th:replace="~{admin/fragment :: page_head('Manage Room')}" />
+
 <body>
-<div th:replace = "~{admin/fragment :: sidebar}" ></div>
+    <div th:replace="~{admin/fragment :: sidebar}"></div>
     <div class="main">
-        <div th:replace = "~{admin/fragment :: headers}" ></div>
-        <div class="content" >
-            <div class="container " style="background :#ffffff; margin-top:20px; " >
-                <div class="table-title" style="display:flex; justify-content: space-between; margin: 20px; padding:10px;" >
+        <div th:replace="~{admin/fragment :: headers}"></div>
+        <div class="content">
+            <div class="container " style="background :#ffffff; margin-top:20px; ">
+                <div class="table-title"
+                    style="display:flex; justify-content: space-between; margin: 20px; padding:10px;">
                     <h3>Manage Seats Of Room [[${room.id}]] </h3>
-                    <button class="btn btn-warning" type="button" >
-                        <a th:href = "@{'/admin/room/' + ${room.id}}" style="text-decoration : none; color: #443e3d;" >
-                        BACK
+                    <button class="btn btn-warning" type="button">
+                        <a th:href="@{'/admin/room/' + ${room.id}}" style="text-decoration : none; color: #443e3d;">
+                            BACK
                         </a>
                     </button>
                     <input type="hidden" name="token" th:value="${token}" />
                 </div>
-                <div class="seats d-flex justify-content-center align-items-center " style="min-height: 500px; max-height: 970px;" >
-                    <div class="d-flex flex-wrap align-items-center justify-content-center " th:style = " 'width: calc(23px * '+ ${col_num} + ' + 1px * 2 * '+${col_num}+ ' );' "  >
+                <div class="seats d-flex justify-content-center align-items-center "
+                    style="min-height: 500px; max-height: 970px;">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center "
+                        th:style=" 'width: calc(23px * '+ ${col_num} + ' + 1px * 2 * '+${col_num}+ ' );' ">
                         <th:block th:each="rowNum : ${#numbers.sequence(1, row_num)}">
                             <th:block th:each="colNum : ${#numbers.sequence(1, col_num)}">
-                                <th:block th:each ="seat : ${seats}">
-                                    <th:block  th:if="${seat.row_num == rowNum and seat.column_num == colNum and seat.empty == false} " >
-                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).NORMAL}">
+                                <th:block th:each="seat : ${seats}">
+                                    <th:block
+                                        th:if="${seat.row_num == rowNum and seat.column_num == colNum and seat.empty == false} ">
+                                        <th:block
+                                            th:if="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).NORMAL}">
                                             <span class="seat normal" th:text="${seat.seat_name}"
-                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}"
-                                                    th:data-column = "${colNum}"
-                                                  th:data-row = "${rowNum}"
-                                                  th:data-id = ${seat.id}>
+                                                th:data-name="${seat.seat_name}" th:id="${seat.seat_name}"
+                                                th:data-column="${colNum}" th:data-row="${rowNum}"
+                                                th:data-id="${seat.id}">
                                             </span>
                                         </th:block>
-                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).VIP}">
+                                        <th:block th:if="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).VIP}">
                                             <span class="seat vip" th:text="${seat.seat_name}"
-                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}"
-                                                  th:data-column = "${colNum}"
-                                                  th:data-row = "${rowNum}"
-                                                  th:data-id = ${seat.id}>
+                                                th:data-name="${seat.seat_name}" th:id="${seat.seat_name}"
+                                                th:data-column="${colNum}" th:data-row="${rowNum}"
+                                                th:data-id="${seat.id}">
                                             </span>
                                         </th:block>
-                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).SWEETBOX}">
+                                        <th:block
+                                            th:if="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).SWEETBOX}">
                                             <span class="seat sweetbox" th:text="${seat.seat_name}"
-                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}"
-                                                  th:data-column = "${colNum}"
-                                                  th:data-row = "${rowNum}"
-                                                  th:data-id = ${seat.id}>
+                                                th:data-name="${seat.seat_name}" th:id="${seat.seat_name}"
+                                                th:data-column="${colNum}" th:data-row="${rowNum}"
+                                                th:data-id="${seat.id}">
                                             </span>
                                         </th:block>
-                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).KING}">
+                                        <th:block th:if="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).KING}">
                                             <span class="seat king" th:text="${seat.seat_name}"
-                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}"
-                                                  th:data-column = "${colNum}"
-                                                  th:data-row = "${rowNum}"
-                                                  th:data-id = ${seat.id}>
+                                                th:data-name="${seat.seat_name}" th:id="${seat.seat_name}"
+                                                th:data-column="${colNum}" th:data-row="${rowNum}"
+                                                th:data-id="${seat.id}">
                                             </span>
                                         </th:block>
-                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).COUPLE}">
+                                        <th:block
+                                            th:if="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).COUPLE}">
                                             <span class="seat couple" th:text="${seat.seat_name}"
-                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}"
-                                                  th:data-column = "${colNum}"
-                                                  th:data-row = "${rowNum}"
-                                                  th:data-id = ${seat.id}>
+                                                th:data-name="${seat.seat_name}" th:id="${seat.seat_name}"
+                                                th:data-column="${colNum}" th:data-row="${rowNum}"
+                                                th:data-id="${seat.id}">
                                             </span>
                                         </th:block>
-                                        <th:block th:if ="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).DELUXE}">
+                                        <th:block
+                                            th:if="${seat.type == T(com.movie.frontend.model.SeatTypeDTO).DELUXE}">
                                             <span class="seat deluxe" th:text="${seat.seat_name}"
-                                                  th:data-name = "${seat.seat_name}" th:id = "${seat.seat_name}"
-                                                  th:data-column = "${colNum}"
-                                                  th:data-row = "${rowNum}"
-                                                  th:data-id = ${seat.id}>
+                                                th:data-name="${seat.seat_name}" th:id="${seat.seat_name}"
+                                                th:data-column="${colNum}" th:data-row="${rowNum}"
+                                                th:data-id="${seat.id}">
                                             </span>
                                         </th:block>
                                     </th:block>
-                                    <th:block  th:if="${seat.row_num == rowNum and seat.column_num == colNum and seat.empty == true} " >
-                                        <span class="seat none"
-                                              th:data-column = "${colNum}"
-                                              th:data-row = "${rowNum}"
-                                              th:data-id = ${seat.id}>
+                                    <th:block
+                                        th:if="${seat.row_num == rowNum and seat.column_num == colNum and seat.empty == true} ">
+                                        <span class="seat none" th:data-column="${colNum}" th:data-row="${rowNum}"
+                                            th:data-id="${seat.id}">
                                         </span>
                                     </th:block>
                                 </th:block>
@@ -86,55 +89,57 @@
 
             </div>
             <div class="container " style="background :#ffffff; margin-top:20px; font-size: 14px; min-height: 200px;
-                                            margin-bottom:20px; position:relative " >
-                    <div class="row" >
-                        <div class="col-6" style="margin-top: 15px;"  >
-                            <div class="row" >
-                                <label class="col-4" >Room id</label>
-                                <input class="col-8"  name="roomId" th:value="${room.id}" readonly />
-                            </div>
-                        </div>
-                        <div class="col-6" style="margin-top: 15px;"  >
-                            <div class="row" >
-                                <label class="col-4" >Seat name</label>
-                                <input class="col-8" name="seatName"  value=""  required/>
-                            </div>
-                        </div>
-                        <div class="col-6" style="margin-top: 15px;"  >
-                            <div class="row" >
-                                <label class="col-4" >Column number</label>
-                                <input class="col-8"  name="column-number" value="" readonly/>
-                            </div>
-
-                        </div>
-                        <div class="col-6" style="margin-top: 15px;"  >
-                            <div class="row" >
-                                <label class="col-4" >Row number</label>
-                                <input class="col-8" name="row-number" value="" readonly />
-                            </div>
-
-                        </div>
-                        <div class="col-6" style="margin-top: 15px;"  >
-                            <div class="row" >
-                                <label class="col-4" >Type of seat </label>
-                                <select class="col-8" id="type-list" >
-                                    <option value="NONE" >NONE</option>
-                                    <th:block th:each ="type : ${types}" >
-                                        <option th:value="${type}">[[${type}]]</option>
-                                    </th:block>
-                                </select>
-                            </div>
-
+                                            margin-bottom:20px; position:relative ">
+                <div class="row">
+                    <div class="col-6" style="margin-top: 15px;">
+                        <div class="row">
+                            <label class="col-4">Room id</label>
+                            <input class="col-8" name="roomId" th:value="${room.id}" readonly />
                         </div>
                     </div>
-                   <button type="button" id="addSeat" class="btn btn-success" style="position: absolute; bottom:15px; right: 15px; width: 100px ; height : 60px; cursor: pointer;" >
-                       Add Seat
-                   </button>
+                    <div class="col-6" style="margin-top: 15px;">
+                        <div class="row">
+                            <label class="col-4">Seat name</label>
+                            <input class="col-8" name="seatName" value="" required />
+                        </div>
+                    </div>
+                    <div class="col-6" style="margin-top: 15px;">
+                        <div class="row">
+                            <label class="col-4">Column number</label>
+                            <input class="col-8" name="column-number" value="" readonly />
+                        </div>
+
+                    </div>
+                    <div class="col-6" style="margin-top: 15px;">
+                        <div class="row">
+                            <label class="col-4">Row number</label>
+                            <input class="col-8" name="row-number" value="" readonly />
+                        </div>
+
+                    </div>
+                    <div class="col-6" style="margin-top: 15px;">
+                        <div class="row">
+                            <label class="col-4">Type of seat </label>
+                            <select class="col-8" id="type-list">
+                                <option value="NONE">NONE</option>
+                                <th:block th:each="type : ${types}">
+                                    <option th:value="${type}">[[${type}]]</option>
+                                </th:block>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <button type="button" id="addSeat" class="btn btn-success"
+                    style="position: absolute; bottom:15px; right: 15px; width: 100px ; height : 60px; cursor: pointer;">
+                    Add Seat
+                </button>
             </div>
         </div>
     </div>
-<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
-<script type="text/javascript" th:src ="@{/js/admin/home.js}" ></script>
-<script type="text/javascript" th:src ="@{/js/admin/room.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/home.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/room.js}"></script>
 </body>
+
 </html>

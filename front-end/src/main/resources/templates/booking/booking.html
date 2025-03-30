@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{admin/fragment :: page_head('Manage Movie')}" />
+
+<body>
+    <div th:replace="~{admin/fragment :: sidebar}"></div>
+    <div th:replace="~{admin/movie/movie-modal :: movie-modal}"></div>
+    <div class="main">
+        <div th:replace="~{admin/fragment :: headers}"></div>
+        <div class="content">
+            <input type="hidden" name="token" th:value="${token}" />
+            <input type="hidden" name="totalPage" th:value="${totalPage}" />
+            <input type="hidden" name="sizePage" th:value="${sizePage}" />
+            <div class="content-container p-3 bg-white shadow rounded" style="width: 1316px ; margin: 10px;">
+                <div class="table-title"
+                    style="display:flex; justify-content: space-between; padding-bottom: 10px; padding-top: 10px;">
+                    <div class="d-flex flex-column">
+                        <h3 class="title">Table List Booking</h3>
+                    </div>
+                </div>
+                <table class="table table-bordered table-hover" style="background :#ffffff;">
+                    <thead class="thead" style="background:#f5f5f5;">
+                        <tr>
+                            <th>
+                                Mã đơn hàng
+                            </th>
+                            <th>
+                                Tên phim
+                            </th>
+                            <th>Suất chiếu</th>
+                            <th>Phòng chiếu</th>
+                            <th>Trạng thái</th>
+                            <th>Tổng tiền</th>
+                            <th>Ngày đặt</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-list">
+                        <tr th:each="booking : ${bookings}">
+                            <td>
+                                <a th:href="@{'/admin/booking/' + ${booking.id}}">[[${booking.id}]]</a>
+                            </td>
+                            <td>[[${booking.event.movie.title}]]</td>
+                            <td>
+                                <span>[[${booking.event.start_date}]]</span>
+                                &nbsp;
+                                <span>[[${booking.event.start_time}]]</span>
+                            </td>
+                            <td>
+                                <span>[[${booking.event.room.name}]]</span>
+                                &nbsp;
+                                <span>[[${booking.event.cinemaName}]]</span>
+                            </td>
+                            <td>
+                                [[${booking.status}]]
+                            </td>
+                            <td>[[${#numbers.formatDecimal(booking.total_amount, 0, 'COMMA', 0, 'POINT')}]] VND</td>
+                            <td>[[${booking.createdTimeFormatted}]]</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example" class="paginate mb-3">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+                            <li th:class="${currentPage == i ? 'page-item active' : 'page-item'}" th:data-page="${i}">
+                                <a class="page-link" href="#">[[${i}]]</a>
+                            </li>
+                        </th:block>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/home.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/booking.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/common_form.js}"></script>
+</body>
+
+</html>

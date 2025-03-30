@@ -1,10 +1,7 @@
 package com.movie.frontend.service;
 
 
-import com.movie.frontend.model.BookingDTO;
-import com.movie.frontend.model.ComboDTO;
-import com.movie.frontend.model.EventDTO;
-import com.movie.frontend.model.UserDTO;
+import com.movie.frontend.model.*;
 import com.movie.frontend.constants.Apis;
 import com.movie.frontend.exception.JwtExpirationException;
 import com.movie.frontend.utility.Utility;
@@ -36,4 +33,21 @@ public class BookingService {
         booking.setUser(userDTO);
         return booking ;
     }
+
+    public DataContent<BookingDTO> findAll(HttpSession session) throws JwtExpirationException {
+        String api = Apis.API_GET_BOOKINGS_FIRST_PAGE;
+        String token = Utility.getJwt(session) ;
+        HttpEntity<?> request = Utility.getHeaderWithJwt(token) ;
+        ResponseEntity<DataContent> response = Utility.body(api , HttpMethod.GET , request , DataContent.class , session);
+        return response.getBody();
+    }
+
+    public BookingDTO findById(HttpSession session, Long bookingId) throws JwtExpirationException {
+        String api = Apis.API_GET_BOOKING_DETAIL + bookingId;
+        String token = Utility.getJwt(session) ;
+        HttpEntity<?> request = Utility.getHeaderWithJwt(token) ;
+        ResponseEntity<BookingDTO> response = Utility.body(api , HttpMethod.GET , request , BookingDTO.class , session);
+        return response.getBody();
+    }
+
 }

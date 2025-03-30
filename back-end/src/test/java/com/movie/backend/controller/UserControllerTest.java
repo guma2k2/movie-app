@@ -6,6 +6,7 @@ import com.movie.backend.dto.DataContent;
 import com.movie.backend.dto.Paginate;
 import com.movie.backend.dto.RoleDTO;
 import com.movie.backend.dto.UserDTO;
+import com.movie.backend.entity.ERole;
 import com.movie.backend.entity.User;
 import com.movie.backend.security.config.JwtService;
 import com.movie.backend.service.UserService;
@@ -80,7 +81,7 @@ public class UserControllerTest {
         roles1.add(new RoleDTO(1, "CLIENT"));
 
         UserDTO user1 = new UserDTO(1L, "John", "Doe", "John Doe", "john.doe@example.com", "password123", true,
-                "john_photo.jpg", "/images/john.jpg", "021421414" ,"verif123", "forgot123", roles1);
+                "john_photo.jpg","/images/john.jpg", "0141412141" ,"verif123", "forgot123", ERole.ADMIN.name());
         pageableData.setResults(Collections.singletonList(user1));
 
         log.info(pageableData.toString());
@@ -111,6 +112,7 @@ public class UserControllerTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setFirstName("UpdatedFirst");
         userDTO.setLastName("UpdatedLast");
+        userDTO.setRole(ERole.ADMIN.name());
         userDTO.setEmail("updated@example.com");
 
         User updatedUser = new User();
@@ -118,6 +120,7 @@ public class UserControllerTest {
         updatedUser.setFirstName("UpdatedFirst");
         updatedUser.setLastName("UpdatedLast");
         updatedUser.setEmail("updated@example.com");
+        updatedUser.setRole(ERole.ADMIN);
 
         when(userService.saveUser(any(UserDTO.class), eq(userId))).thenReturn(updatedUser);
 
@@ -139,6 +142,7 @@ public class UserControllerTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setFirstName("John");
         userDTO.setLastName("Doe");
+        userDTO.setRole(ERole.ADMIN.name());
         userDTO.setEmail("john.doe@example.com");
 
         User savedUser = new User();
@@ -146,6 +150,7 @@ public class UserControllerTest {
         savedUser.setFirstName("John");
         savedUser.setLastName("Doe");
         savedUser.setEmail("john.doe@example.com");
+        savedUser.setRole(ERole.ADMIN);
 
         when(userService.saveUser(any(UserDTO.class), any())).thenReturn(savedUser);
 

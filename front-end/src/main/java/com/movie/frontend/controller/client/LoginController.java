@@ -39,11 +39,8 @@ public class LoginController {
             session.setAttribute("jwtToken" , jwtToken);
             session.setAttribute("fullName" , jwtToken.getUser().getFullName());
             UserDTO userDTO = jwtToken.getUser();
-            Set<RoleDTO> roles = userDTO.getRoles();
-            for(RoleDTO roleDTO : roles) {
-                if(roleDTO.getName().equals("ADMIN")) {
-                    return "redirect:/admin";
-                }
+            if(userDTO.getRole().equals("ADMIN")) {
+                return "redirect:/admin";
             }
             return "redirect:/";
         }catch (HttpClientErrorException e) {
@@ -69,12 +66,13 @@ public class LoginController {
         String password = request.getParameter("password");
         ProfileUpdateRequest profileUpdateRequest = new ProfileUpdateRequest(firstName, lastName, phoneNumber, password);
         try{
-            JwtToken jwtToken = userService.updateProfile(profileUpdateRequest);
+            JwtToken jwtToken = userService.updateProfile(profileUpdateRequest, session);
             session.setAttribute("jwtToken" , jwtToken);
             session.setAttribute("fullName" , jwtToken.getUser().getFullName());
+            redirectAttributes.addFlashAttribute("messageSuccess", "Cap nhat thanh cong");
             return "redirect:/profile";
-        }catch (HttpClientErrorException e) {
-            log.info(e.getResponseBodyAsString());
+        }catch (HttpClientErrorException | JwtExpirationException e) {
+            log.info(e.getMessage());
             redirectAttributes.addFlashAttribute("message" , "Mật khẩu hoặc tài khoản không hợp lệ") ;
             return "redirect:/login";
         }

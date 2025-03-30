@@ -48,6 +48,7 @@ public class HomeController {
         String getMoviesURL = Apis.API_GET_MOVIES;
         ResponseEntity<MovieDTO[]> response = restTemplate.getForEntity(getMoviesURL,MovieDTO[].class);
         MovieDTO[] listMovie = response.getBody();
+//        log.info(listMovie.toString());
         String[] sliders = new String[]{urlSlider1, urlSlider2 , urlSlider3 , urlSlider4};
         model.addAttribute("sliders" , sliders);
         model.addAttribute("movies" ,listMovie);

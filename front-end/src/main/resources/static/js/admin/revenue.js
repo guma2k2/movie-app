@@ -10,7 +10,7 @@ $(document).ready(function () {
     $(".item.active").removeClass("active");
     $(".item.dashboard").addClass("active");
 
-    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.load('current', { 'packages': ['corechart'] });
     loadSalesReportByDate();
     $("#drawChart").on('click', function () {
         loadSalesReportByDate();
@@ -32,7 +32,7 @@ $(document).ready(function () {
             })
             .catch(function (error) {
                 console.log(error);
-                alert("Failed to retrieve data for export.");
+                // alert("Failed to retrieve data for export.");
             });
     });
 
@@ -66,7 +66,7 @@ $(document).ready(function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error("Export error:", textStatus, errorThrown);
-                alert("Failed to download the file.");
+                // alert("Failed to download the file.");
             }
         });
     }
@@ -92,11 +92,11 @@ $(document).ready(function () {
             })
             .catch(function (error) {
                 console.log(error);
-                if (error.responseJSON) {
-                    alert(error.responseJSON.message);
-                } else {
-                    alert("An error occurred.");
-                }
+                // if (error.responseJSON) {
+                //     alert(error.responseJSON.message);
+                // } else {
+                //     alert("An error occurred.");
+                // }
             });
     }
 
@@ -142,7 +142,7 @@ $(document).ready(function () {
         // Chart Styling Options
         var options = {
             title: 'Số vé bán ra theo phim',
-            chartArea: {width: '85%', height: '60%'},
+            chartArea: { width: '85%', height: '60%' },
             colors: ['#4285F4'], // Blue color for ticket count
             hAxis: {
                 title: 'Tên phim', // X-axis title
@@ -153,15 +153,15 @@ $(document).ready(function () {
             vAxis: {
                 title: 'Số vé bán ra', // Y-axis title
                 minValue: 0,
-                gridlines: {color: '#eee', count: 5}, // Soft gridlines
+                gridlines: { color: '#eee', count: 5 }, // Soft gridlines
                 textStyle: { fontSize: 10 }
             },
-            legend: {position: 'none'}
+            legend: { position: 'none' }
         };
 
         var revenueOptions = {
             title: 'Doanh thu theo phim',
-            chartArea: {width: '75%', height: '60%'},
+            chartArea: { width: '75%', height: '60%' },
             colors: ['#34A853'], // Green color for revenue
             hAxis: {
                 title: 'Tên phim', // X-axis title
@@ -173,10 +173,10 @@ $(document).ready(function () {
                 title: 'Doanh thu (VND)',
                 minValue: 0,
                 format: 'short', // Formats large numbers (e.g., 1,500 instead of 1500)
-                gridlines: {color: '#eee', count: 5},
+                gridlines: { color: '#eee', count: 5 },
                 textStyle: { fontSize: 10 }
             },
-            legend: {position: 'none'}
+            legend: { position: 'none' }
         };
 
         // Draw Ticket Count Chart (Movies on X-axis)

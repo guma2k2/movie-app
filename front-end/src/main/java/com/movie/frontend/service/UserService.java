@@ -29,13 +29,7 @@ public class UserService {
         return response.getBody();
 
     }
-    public List<RoleDTO> findAllRole(HttpSession session) throws JwtExpirationException {
-        String api = Apis.API_GET_ROLES;
-        String token = Utility.getJwt(session) ;
-        HttpEntity<?> request = Utility.getHeaderWithJwt(token) ;
-        ResponseEntity<RoleDTO[]> response = Utility.body(api , HttpMethod.GET , request , RoleDTO[].class , session);
-        return List.of(response.getBody());
-    }
+
     public void logout(HttpSession session) throws JwtExpirationException {
         String api = Apis.API_AUTH_LOGOUT;
         String token = Utility.getJwt(session) ;
@@ -74,14 +68,15 @@ public class UserService {
         return response.getBody();
     }
 
-    public JwtToken updateProfile(ProfileUpdateRequest request) {
-        RestTemplate restTemplate = new RestTemplate() ;
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(HttpHeaders.ACCEPT , MediaType.APPLICATION_JSON_VALUE);
-        String authLoginURL = Apis.API_AUTH_PROFILE ;
-        HttpEntity<?> entity =  new HttpEntity<>(request , httpHeaders);
-        ResponseEntity<JwtToken> response = restTemplate.exchange(authLoginURL, HttpMethod.PUT,entity ,JwtToken.class);
-        return response.getBody();
+    public JwtToken updateProfile(ProfileUpdateRequest request, HttpSession session) throws JwtExpirationException {
+        String api = Apis.API_AUTH_PROFILE;
+        String token = Utility.getJwt(session) ;
+        if (token != "") {
+            HttpEntity<?> requestHeader = Utility.getHeaderWithJwtAndObject(token, request) ;
+            ResponseEntity<JwtToken> response = Utility.body(api , HttpMethod.PUT , requestHeader , JwtToken.class , session);
+            return response.getBody();
+        }
+        return null;
     }
 
     public ProfileResponse getProfile(HttpSession session) throws JwtExpirationException {

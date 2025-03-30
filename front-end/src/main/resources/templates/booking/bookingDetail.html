@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{admin/fragment :: page_head('Manage Movie')}" />
+
+<body>
+    <div th:replace="~{admin/fragment :: sidebar}"></div>
+    <div class="main">
+        <div th:replace="~{admin/fragment :: headers}"></div>
+        <div class="content container mt-4">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a th:href="@{/}" class="text-decoration-none">Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a th:href="@{/admin/booking}" class="text-decoration-none">Bookings</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Booking Details</li>
+                </ol>
+            </nav>
+            <div class="card shadow-lg p-4">
+                <!-- Booking Header -->
+                <h3 class="text-center mb-4">Booking Details</h3>
+
+                <!-- Booking Information -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h5>Booking ID:</h5>
+                        <p>[[${booking.id}]]</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <h5>Status:</h5>
+                        <span class="badge bg-success">[[${booking.status}]]</span>
+                    </div>
+                </div>
+
+                <!-- Movie Details -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <img th:src="@{${booking.event.movie.poster_url}}" alt="Movie Poster" class="img-fluid rounded">
+                    </div>
+                    <div class="col-md-8">
+                        <h4>[[${booking.event.movie.title}]]</h4>
+                        <p><strong>Cinema:</strong> [[${booking.event.cinemaName}]]</p>
+                        <p><strong>Room:</strong> [[${booking.event.room.name}]]</p>
+                        <p><strong>Show Time:</strong> [[${booking.event.start_date}]] - [[${booking.event.start_time}]]
+                        </p>
+                        <p><strong>Subtitle:</strong> [[${booking.event.subtitleType.name}]]</p>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="mb-3">
+                    <h5>Seats:</h5>
+                    <p class="badge bg-primary p-2">[[${booking.seats}]]</p>
+                </div>
+
+                <!-- Combo Details -->
+                <div class="mb-3">
+                    <h5>Combos:</h5>
+                    <div class="row">
+                        <div th:each="combo : ${booking.combos}" class="col-md-4">
+                            <div class="card shadow-sm">
+                                <img th:src="${combo.img_url}" class="card-img-top" alt="Combo Image">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">[[${combo.title}]]</h6>
+                                    <p class="card-text">[[${combo.description}]]</p>
+                                    <p class="fw-bold">Quantity: [[${combo.quantity}]]</p>
+                                    <p class="text-muted">Subtotal: [[${#numbers.formatDecimal(combo.subTotal, 0,
+                                        'COMMA', 0, 'POINT')}]] VND</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Total Payment -->
+                <div class="text-end">
+                    <h4>Total: <span class="text-danger">[[${#numbers.formatDecimal(booking.total_amount, 0, 'COMMA', 0,
+                            'POINT')}]] VND</span></h4>
+                </div>
+
+                <hr>
+
+                <!-- Booking Timestamp -->
+                <div class="text-muted text-center">
+                    <p>Booked on: [[${booking.createdTimeFormatted}]]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/home.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/common_form.js}"></script>
+</body>
+
+</html>

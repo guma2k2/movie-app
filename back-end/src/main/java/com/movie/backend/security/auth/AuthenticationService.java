@@ -1,12 +1,11 @@
 package com.movie.backend.security.auth;
 
 import com.movie.backend.dto.*;
-import com.movie.backend.entity.Role;
+import com.movie.backend.entity.ERole;
 import com.movie.backend.entity.User;
 import com.movie.backend.exception.HeaderNotFoundException;
 import com.movie.backend.exception.JwtException;
 import com.movie.backend.exception.UserException;
-import com.movie.backend.repository.RoleRepository;
 import com.movie.backend.repository.UserRepository;
 
 import com.movie.backend.security.config.JwtService;
@@ -41,7 +40,6 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -61,7 +59,6 @@ public class AuthenticationService {
 
 
     private static final String GRANT_TYPE = "authorization_code";
-    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
     @Autowired
@@ -72,7 +69,6 @@ public class AuthenticationService {
         if(userRepository.findByEmail(request.getEmail()).isPresent()){
             throw  new UserException("The email was exited");
         }
-        Role role = roleRepository.findByName("CLIENT");
         // 1 : ADMIN // 2 : CLIENT
         String randomCode = RandomString.make(64);
         var user = User.builder()
@@ -81,11 +77,11 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .photo("")
                 .phone_number("")
+                .role(ERole.CUSTOMER)
                 .verificationCode(randomCode)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .status(false)
                 .build();
-        user.addRole(role);
         userRepository.save(user);
         userService.sendVerificationEmail(user);
         return "Send request success" ;
@@ -196,12 +192,11 @@ public class AuthenticationService {
 
     public AuthenticationResponse updateProfile(ProfileUpdateRequest request) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        log.info(email);
         User user = userRepository.findByEmail(email).orElseThrow();
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
         user.setPhone_number(request.phoneNumber());
-        if (request.password() != null) {
+        if (request.password() != null && request.password() != "") {
             user.setPassword(passwordEncoder.encode(request.password()));
         }
         User updatedUser = userRepository.saveAndFlush(user);
@@ -247,9 +242,8 @@ public class AuthenticationService {
                                     .lastName(userInfo.givenName())
                                     .email(userInfo.email())
                                     .photo(userInfo.picture())
+                                    .role(ERole.CUSTOMER)
                                     .build();
-                            Role role = roleRepository.findByName("CLIENT");
-                            newUser.addRole(role);
                             return userRepository.saveAndFlush(newUser);
                         });
                 UserDTO userDTO = modelMapper.map(user , UserDTO.class);
