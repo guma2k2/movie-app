@@ -1,85 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace = "~{client/fragment :: page_head('Vincinema')}" />
+
+<head th:replace="~{client/fragment :: page_head('Vincinema')}" />
+
 <body>
-<div th:replace = "~{client/fragment :: nav}" ></div>
-<div class="bread-crumb" style="width: 100%" >
+    <div th:replace="~{client/fragment :: nav}"></div>
+    <div class="bread-crumb" style="width: 100%">
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" style="width:100%; background: #f1f0e5;" >
-                <div class="container d-flex " style="gap:5px;" >
-                    <li class="breadcrumb-item d-flex " style="gap:5px;"  >
+            <ol class="breadcrumb" style="width:100%; background: #f1f0e5;">
+                <div class="container d-flex " style="gap:5px;">
+                    <li class="breadcrumb-item d-flex " style="gap:5px;">
                         <a th:href="@{/}">
                             Home
                         </a>
                     </li>
-                    <li class="breadcrumb-item d-flex" style="gap:5px;"  >
+                    <li class="breadcrumb-item d-flex" style="gap:5px;">
                         <a href="#">Phim</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">[[${movie.title}]]</li>
                 </div>
             </ol>
         </nav>
-</div >
-<div class="container page-title" style="padding-bottom: 10px;  border-bottom: 2px solid #222; margin-bottom:20px;" >
-    <span style="margin : 0 ; color: #222;font-size: 28px;
-            font-style: normal; line-height:1.2; margin-bottom:0.7rem; text-rendering: optimizeLegibility;" >
-        Nội Dung Phim
-    </span>
-</div>
-<div class="container my-5" style="height: 380px;" >
-    <div class="row">
-        <div class="col-lg-4 col-md-6 d-flex flex-column" style="height: 380px;" >
-            <img th:src="@{${movie.photosImagePath}}" class=" shadow" style="height: 90%; object-fit:cover" >
-            <button class="btn btn-danger"
-                    th:id="'buy-ticket-btn'+${movie.id}" th:movieId = "${movie.id}" >
-                <span>Mua vé</span>
-            </button>
-        </div>
+    </div>
+    <div class="container page-title" style="padding-bottom: 10px;  border-bottom: 2px solid #222; margin-bottom:20px;">
+        <span style="margin : 0 ; color: #222;font-size: 28px;
+            font-style: normal; line-height:1.2; margin-bottom:0.7rem; text-rendering: optimizeLegibility;">
+            Nội Dung Phim
+        </span>
+    </div>
+    <div class="container my-5" style="height: 380px;">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 d-flex flex-column" style="height: 380px;">
+                <img th:src="@{${movie.photosImagePath}}" class=" shadow" style="height: 90%; object-fit:cover">
+                <button class="btn btn-danger" th:id="'buy-ticket-btn'+${movie.id}" th:movieId="${movie.id}">
+                    <span>Mua vé</span>
+                </button>
+            </div>
 
-        <div class="col-lg-8 col-md-6" style="min-height: 380px; position: relative; " >
-            <h1 class="mb-3" th:text="${movie.title}" ></h1>
-            <p><strong>Release Date:</strong> <span th:text="${#temporals.format(movie.release_date, 'dd/MM/yyyy')}"></span></p>
-            <p><strong>Genre:</strong>
-                <th:block th:each = "genre : ${movie.genres}">
-                    <span th:text ="${genre.name}"></span>
-                </th:block>
-            </p>
-            <p><strong>Duration:</strong> [[${movie.duration_minutes}]]</p>
-            <p><strong>Language:</strong> <span th:text="${movie.language.label}"></span></p>
-            <p><strong>Director:</strong> [[${movie.director}]]</p>
-            <p><strong>Cast:</strong> [[${movie.cast}]]</p>
-            <p style="font-weight: bold; text-transform: uppercase;" ><strong>Rated:</strong> <span th:text="${#strings.toString(movie.rating.name())}"></span> - <span th:text="${movie.rating.label}"></span></p>
+            <div class="col-lg-8 col-md-6" style="min-height: 380px; position: relative; ">
+                <h1 class="mb-3" th:text="${movie.title}"></h1>
+                <p><strong>Release Date:</strong> <span
+                        th:text="${#temporals.format(movie.release_date, 'dd/MM/yyyy')}"></span></p>
+                <p><strong>Genre:</strong>
+                    <th:block th:each="genre : ${movie.genres}">
+                        <span th:text="${genre.name}"></span>
+                    </th:block>
+                </p>
+                <p><strong>Duration:</strong> [[${movie.duration_minutes}]]</p>
+                <p><strong>Language:</strong> <span th:text="${movie.language.label}"></span></p>
+                <p><strong>Director:</strong> [[${movie.director}]]</p>
+                <p><strong>Cast:</strong> [[${movie.cast}]]</p>
+                <p style="font-weight: bold; text-transform: uppercase;"><strong>Rated:</strong> <span
+                        th:text="${#strings.toString(movie.rating.name())}"></span> - <span
+                        th:text="${movie.rating.label}"></span></p>
 
+            </div>
         </div>
     </div>
-</div>
-<div class="container my-2" >
-            <ul class="nav nav-pills mb-3 d-flex align-items-center justify-content-center " id="pills-tab" role="tablist"  >
-                <li class="nav-item">
-                    <a class="nav-link active" id="pills-description-tab" data-toggle="pill" href="#pills-description" role="tab" aria-controls="pills-description" aria-selected="true"><span style="font-size:12px;">Description</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-trailer-tab" data-toggle="pill" href="#pills-trailer" role="tab" aria-controls="pills-trailer" aria-selected="false"><span style="font-size:12px;">Trailer</span></a>
-                </li>
-            </ul>
+    <div class="container my-2">
+        <ul class="nav nav-pills mb-3 d-flex align-items-center justify-content-center " id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-description-tab" data-toggle="pill" href="#pills-description"
+                    role="tab" aria-controls="pills-description" aria-selected="true"><span
+                        style="font-size:12px;">Description</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-trailer-tab" data-toggle="pill" href="#pills-trailer" role="tab"
+                    aria-controls="pills-trailer" aria-selected="false"><span style="font-size:12px;">Trailer</span></a>
+            </li>
+        </ul>
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab">
-                <p th:text="${movie.description}"  style="color:#222; font-size : 14px; line-height: 18px;  "></p>
+            <div class="tab-pane fade show active" id="pills-description" role="tabpanel"
+                aria-labelledby="pills-description-tab">
+                <p th:text="${movie.description}" style="color:#222; font-size : 14px; line-height: 18px;  "></p>
             </div>
             <div class="tab-pane fade" id="pills-trailer" role="tabpanel" aria-labelledby="pills-trailer-tab">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="560" height="315" th:src="@{${movie.trailer}}"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; gyroscope; picture-in-picture"
-                            allowfullscreen>
+                    <iframe width="560" height="315"
+                        th:src="'https://www.youtube.com/embed/' + ${#strings.substringAfter(movie.trailer, 'v=')}"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; gyroscope; picture-in-picture" allowfullscreen>
                     </iframe>
                 </div>
             </div>
+
         </div>
-</div>
-<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
-<div th:replace = "~{client/fragment :: footer}"></div>
-<div th:replace = "~{client/fragment :: modal-booking}"></div>
-<script type="text/javascript" th:src = "@{/js/client/Event.js}"></script>
+    </div>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+    <div th:replace="~{client/fragment :: footer}"></div>
+    <div th:replace="~{client/fragment :: modal-booking}"></div>
+    <script type="text/javascript" th:src="@{/js/client/Event.js}"></script>
 </body>
+
 </html>

@@ -6,6 +6,7 @@
 <body>
     <div th:replace="~{admin/fragment :: sidebar}"></div>
     <div th:replace="~{admin/room/room-modal :: room-modal}"></div>
+    <div th:replace="~{admin/fragment :: #confirmDialog}"></div>
     <div class="main">
         <div th:replace="~{admin/fragment :: headers}"></div>
         <div class="content">
@@ -40,7 +41,6 @@
                     </div>
                     <div class="d-flex">
                         <div id="addRoom" class="btn btn-primary" style="height: 40px;">
-                            <i class="fas fa-plus"></i>
                             ADD
                         </div>
                         <button class="btn btn-primary actionRefresh ml-2" style="height: 40px;">

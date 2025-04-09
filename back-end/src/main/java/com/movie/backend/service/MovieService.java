@@ -6,8 +6,10 @@ import com.movie.backend.dto.GenreDTO;
 import com.movie.backend.dto.MovieDTO;
 
 import com.movie.backend.entity.*;
+import com.movie.backend.exception.BadRequestException;
 import com.movie.backend.exception.MovieException;
 import com.movie.backend.exception.UserException;
+import com.movie.backend.repository.EventRepository;
 import com.movie.backend.repository.GenreRepository;
 import com.movie.backend.repository.MovieRepository;
 
@@ -43,6 +45,9 @@ public class MovieService {
     private GenreRepository genreRepository ;
 
     @Autowired
+    private EventRepository eventRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Value("${application.service.movie.moviePerPage}")
@@ -64,8 +69,7 @@ public class MovieService {
         Movie checkMovieExit = movieRepository.getByTitle(requestTitle) ;
         if(update) {
             if(checkMovieExit != null ) {
-                if (checkMovieExit.getId() != movieId) {
-                    System.out.println("fuck you ");
+                if (!Objects.equals(checkMovieExit.getId(), movieId)) {
                     throw new MovieException("Title not valid") ;
                 }
             }
@@ -209,6 +213,10 @@ public class MovieService {
 
     public void deleteMovie(Long movieId) {
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieException("movie not found")) ;
+        List<Event> events = eventRepository.findByMovie(movieId);
+        if (events.size() > 0) {
+            throw new BadRequestException("This movie was belong to event");
+        }
         movieRepository.delete(movie);
     }
     public List<MovieDTO> findBeforeDate() {

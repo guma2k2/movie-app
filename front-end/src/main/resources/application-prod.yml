@@ -7,6 +7,6 @@ application:
 server:
     port : 8000
 api:
-    url: http://localhost:8080/api/v1
+    url: http://backend-movie:8080/api/v1
 
 

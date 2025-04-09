@@ -23,6 +23,10 @@ $(document).ready(function () {
       nextButton.show();
     }
   }
+
+  $(".btn-yes-confirm").click(function () {
+
+  })
   $(".actionRefresh").click(function () {
     sortDir = "desc";
     sortField = "id";
@@ -40,16 +44,18 @@ $(document).ready(function () {
     var element = $(this);
     handleUpdateStatus(userId, jwt, status, element);
   })
-  $("#hidePassword").click(function () {
-    $(this).hide();
-    $("#showPassword").show();
-    $("input[name='password']").attr("type", "text");
-  })
-  $("#showPassword").click(function () {
-    $(this).hide();
-    $("#hidePassword").show();
-    $("input[name='password']").attr("type", "password");
-  })
+  $('.toggle-password').on('click', function () {
+    const input = $(this).closest('.input-group').find('.password-input');
+    const icon = $(this).find('i');
+
+    if (input.attr('type') === 'password') {
+      input.attr('type', 'text');
+      icon.removeClass('fa-eye').addClass('fa-eye-slash');
+    } else {
+      input.attr('type', 'password');
+      icon.removeClass('fa-eye-slash').addClass('fa-eye');
+    }
+  });
 
   $("ul.pagination").on("click", "a.page-link", function (e) {
     e.preventDefault();
@@ -117,14 +123,7 @@ $(document).ready(function () {
     var action = '';
     handlePaginate(page, sortDir, sortField, keyword, jwt, action);
   })
-  //      $('a.fa-trash').click(function() {
-  // //            var userId = $(this).data('id');
-  // //            console.log(sortDir) ;
-  // //            console.log(sortField) ;
-  // //            console.log(page) ;
-  // //            handleDeleteMovie(movieId, jwt) ;
-  //         alert("Lazy to finish :))") ;
-  //      });
+
   $(".addUser").click(function (e) {
     clearInput();
     $("#user-modal").modal("show");
@@ -160,7 +159,6 @@ $(document).ready(function () {
     var lastName = $("input[name='lastName']").val();
     var email = $("input[name='email']").val();
     var password = $("input[name='password']").val();
-    var roles = [];
     var role = $("#role-select").val();
     var user = {
       firstName: firstName,
@@ -169,35 +167,56 @@ $(document).ready(function () {
       password: password,
       role: role
     }
-    console.log(user);
+    var formImage = $("#formImage");
     handleUpdateUser(user, userId, formImage, jwt);
 
   })
 
   function handleAddUser(user, formImage, jwt) {
-    var headers = { "Authorization": "Bearer " + jwt };
-    var url = baseUrl + "/api/v1/admin/user/save";
-    $.ajax({
-      type: "POST",
-      url: url,
-      dataType: 'json',
-      contentType: "application/json",
-      headers: headers,
-      data: JSON.stringify(user),
-      success: function (res) {
+    saveUser(user, formImage, jwt)
+      .then(function (res) {
         console.log(res);
         var userId = res.id;
-        alert("save user : " + userId + "success");
+        alert("save user with id : " + userId + " success");
         handleSavePhotoUser(formImage, userId);
         clearInput();
         $("#user-modal").modal("hide");
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        var errorData = JSON.parse(jqXHR.responseText);
-        alert(errorData.message);
-      }
+      })
+      .catch(function (error) {
+        console.log(error);
+        if (error.responseJSON) {
+          alert(error.responseJSON.message);
+        } else {
+          alert("An error was occur");
+        }
+      })
+  }
+
+
+
+  function saveUser(user, formImage, jwt) {
+    var headers = { "Authorization": "Bearer " + jwt };
+    var url = baseUrl + "/api/v1/admin/user/save";
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: url,
+        headers: headers,
+        data: JSON.stringify(user),
+        dataType: 'json',
+        success: function (data) {
+          resolve(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          reject(errorThrown);
+        }
+      });
     });
   }
+
+
+
   function handleSavePhotoUser(formImage, userId) {
     var formData = new FormData(formImage[0]);
     var headers = { "Authorization": "Bearer " + jwt };
@@ -301,28 +320,47 @@ $(document).ready(function () {
       })
   }
   function handleUpdateUser(user, userId, formImage, jwt) {
-    var headers = { "Authorization": "Bearer " + jwt };
-    //          console.log(jwt) ;
-    var url = baseUrl + "/api/v1/admin/user/update/" + userId;
-    $.ajax({
-      type: "PUT",
-      contentType: "application/json",
-      url: url,
-      headers: headers,
-      data: JSON.stringify(user),
-      dataType: 'json',
-      success: function (res) {
+    updateUser(user, userId, formImage, jwt)
+      .then(function (res) {
         var userId = res.id;
         console.log(res);
         alert("update user success");
         handleSavePhotoUser(formImage, userId);
         clearInput();
         $("#user-modal").modal("hide");
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-      }
+      })
+      .catch(function (error) {
+        console.log(error);
+        if (error.responseJSON) {
+          alert(error.responseJSON.message);
+        } else {
+          alert("An error was occur");
+        }
+      })
+  }
+
+
+  function updateUser(user, userId, formImage, jwt) {
+    var headers = { "Authorization": "Bearer " + jwt };
+    var url = baseUrl + "/api/v1/admin/user/update/" + userId;
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+        type: "PUT",
+        contentType: "application/json",
+        url: url,
+        headers: headers,
+        data: JSON.stringify(user),
+        dataType: 'json',
+        success: function (data) {
+          resolve(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          reject(errorThrown);
+        }
+      });
     });
   }
+
   function clearInput() {
     $("input[name='firstName']").val('');
     $("input[name='lastName']").val('');

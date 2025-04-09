@@ -6,6 +6,8 @@
 <body>
     <div th:replace="~{admin/fragment :: sidebar}"></div>
     <div th:replace="~{admin/movie/movie-modal :: movie-modal}"></div>
+    <div th:replace="~{admin/fragment :: #confirmDialog}"></div>
+
     <div class="main">
         <div th:replace="~{admin/fragment :: headers}"></div>
 
@@ -31,10 +33,9 @@
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-primary d-flex align-items-center justify-content-center btn-add "
-                        style="width: 75px; height: 34px;">
-                        <i class="fas fa-plus"></i>
-                        <span class="ml-3">Add</span>
+                    <button class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2 rounded shadow-sm btn-add"
+                        style="height: 40px; margin-top: 20px;" aria-label="Add User">
+                        <span>ADD</span>
                     </button>
                 </div>
                 <table class="table table-bordered table-hover" style="background :#ffffff;">

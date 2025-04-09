@@ -18,7 +18,7 @@ public class CinemaController {
     public String listAllCity(Model model) {
         RestTemplate restTemplate = new RestTemplate();
         // API : GET_CITES
-        String getCitesURL = Apis.API_GET_CITES;
+        String getCitesURL = Apis.API_GET_CITIES;
         ResponseEntity<CityDTO[]> response = restTemplate.getForEntity(getCitesURL,CityDTO[].class);
         CityDTO[] cites = response.getBody();
         model.addAttribute("cites" , cites);

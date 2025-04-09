@@ -59,7 +59,7 @@ public class HomeController {
     public String movieDetail(Model model , @PathVariable("id") Long id ) {
         RestTemplate restTemplate = new RestTemplate();
         // API : GET_MOVIE_BY_ID
-        String getMovieByIdURL = Apis.APT_GET_MOVIE_BY_ID;
+        String getMovieByIdURL = Apis.API_GET_MOVIE_BY_ID;
         UriComponentsBuilder builder = UriComponentsBuilder
 				.fromUriString(getMovieByIdURL)
 				.uriVariables(Collections

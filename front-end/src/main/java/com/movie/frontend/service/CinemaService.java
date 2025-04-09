@@ -25,7 +25,7 @@ public class CinemaService {
         return Arrays.stream(response.getBody()).toList();
     }
     public List<CityDTO> listCity(HttpSession session) throws JwtExpirationException {
-        String api = Apis.API_GET_CITES ;
+        String api = Apis.API_GET_CITIES ;
         String token = Utility.getJwt(session) ;
         HttpEntity<?> request = Utility.getHeaderWithJwt(token) ;
         ResponseEntity<CityDTO[]> response = Utility.body(api , HttpMethod.GET , request , CityDTO[].class , session);
