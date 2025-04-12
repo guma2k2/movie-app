@@ -230,7 +230,6 @@ $(document).ready(function () {
   function handleDeleteMovie(movieId, jwt) {
     deleteMovie(movieId, jwt)
       .then(function () {
-        alert("delete successful");
         $("#confirmDialog").modal("hide");
         movieIdToDelete = null;
         var action = '';
@@ -569,19 +568,6 @@ $(document).ready(function () {
           $('#confirmDialog').modal('show');
           $('#modal-confirm-body').text('Do you want to delete this movie');
         });
-
-        $('#btn-yes-confirm').click(function () {
-          if (movieIdToDelete != null) {
-            handleDeleteMovie(movieIdToDelete, jwt);
-          }
-        });
-        $(".btn-add").click(function (e) {
-          clearInput();
-          $("#movie-modal").modal("show");
-          $(".modal-title").text("ADD");
-          $("#update-movie").hide();
-          $("#action-movie").show();
-        })
       })
       .catch(function (error) {
         console.log(error);

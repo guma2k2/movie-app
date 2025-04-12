@@ -80,7 +80,10 @@ $(document).ready(function () {
     function handleDelete(id, jwt) {
         deleteRoomById(id, jwt)
             .then(function () {
-                alert("Delete successful");
+                $("#confirmDialog").modal("hide");
+                roomIdModify = null;
+                var cinemaName = $("#cinema-list").val();
+                handleRoomByCinema(cinemaName, jwt);
             })
             .catch(function (error) {
                 console.log(error);
@@ -452,13 +455,6 @@ $(document).ready(function () {
                         $('#confirmDialog').modal('show');
                         $('#modal-confirm-body').text('Do you want to delete this room?');
                     });
-
-                    $('#btn-yes-confirm').click(function () {
-                        if (roomIdModify != null) {
-                            handleDelete(roomIdModify, jwt);
-
-                        }
-                    });
                 }
             })
             .catch(function (error) {
@@ -672,13 +668,6 @@ $(document).ready(function () {
                     roomIdModify = roomId;
                     $('#confirmDialog').modal('show');
                     $('#modal-confirm-body').text('Do you want to delete this room?');
-                });
-
-                $('#btn-yes-confirm').click(function () {
-                    if (roomIdModify != null) {
-                        handleDelete(roomIdModify, jwt);
-
-                    }
                 });
             })
             .catch(function (error) {

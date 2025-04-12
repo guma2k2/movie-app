@@ -1,66 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace = "~{client/fragment :: page_head('Vincinema')}" />
-<body>
-<div th:replace = "~{client/fragment :: nav}" ></div>
-<div style="background:#fdfcf0; font-family: 'Noto Sans', sans-serif;">
-    <h1 class="text-center my-2">
-        VÉ CỦA TÔI
-    </h1>
-    <div class="m-3" style="min-height: 700px; " >
-        <input type="hidden" id="token" name="token" th:value="${token}" />
-        <table th:if="${#lists.size(tickets) > 0}" class="table table-bordered">
-            <thead>
-               <tr>
-                   <th>Mã vé</th>
-                   <th>Tên phim</th>
-                   <th>Tên rạp</th>
-                   <th>Tên phòng</th>
-                   <th>Xuất chiếu</th>
-                   <th>Thời gian tạo</th>
-                   <th>Ghế</th>
-                   <th>Combo</th>
-                   <th>Tổng tiền</th>
-                   <th>Xem chi tiết</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr th:each ="ticket : ${tickets}" th:with="event=${ticket.event}"  >
-                   <td>[[${ticket.id}]]</td>
-                   <td>[[${event.movie.title}]]</td>
-                   <td>[[${event.cinemaName}]]</td>
-                   <td>[[${event.room.name}]]</td>
-                   <td class="d-flex flex-column p-2">
-                       <div class="startTime mb-2">[[${event.start_time}]]</div>
-                       <div>[[${#temporals.format(event.start_date, 'dd-MM-yyyy')}]]</div>
-                   </td>
-                   <td>[[${ticket.createdAt}]]</td>
-                   <td>[[${ticket.seats}]]</td>
-                   <td class="p-3" >
-                       <ul>
-                           <th:block th:each = "bCombo : ${ticket.combos}" >
-                                <li>[[${bCombo.combo.title}]]</li>
-                           </th:block>
-                       </ul>
-                   </td>
-                   <td>[[${ticket.totalAmount}]]</td>
-                   <td class="padding-3" >
-                       <a class="ticket-btn" href="#" th:data-id ="${ticket.id}" >
-                           <i class="fa fa-file fa-2x"></i>
-                       </a>
-                   </td>
-               </tr>
-            </tbody>
-        </table>
-        <div  th:unless = "${#lists.size(tickets) > 0}" class="text-center">
-            Bạn chưa mua vé nào !!
-        </div>
 
+<head th:replace="~{client/fragment :: page_head('Vincinema')}" />
+
+<body>
+    <div th:replace="~{client/fragment :: nav}"></div>
+    <div style="background:#fdfcf0; font-family: 'Noto Sans', sans-serif;">
+        <h1 class="text-center my-2">
+            VÉ CỦA TÔI
+        </h1>
+        <div class="m-3" style="min-height: 700px; ">
+            <input type="hidden" id="token" name="token" th:value="${token}" />
+            <table th:if="${#lists.size(tickets) > 0}" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Mã vé</th>
+                        <th>Tên phim</th>
+                        <th>Tên rạp</th>
+                        <th>Tên phòng</th>
+                        <th>Xuất chiếu</th>
+                        <th>Thời gian tạo</th>
+                        <th>Ghế</th>
+                        <th>Combo</th>
+                        <th>Tổng tiền</th>
+                        <th>Xem chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="ticket : ${tickets}" th:with="event=${ticket.event}">
+                        <td>[[${ticket.id}]]</td>
+                        <td>[[${event.movie.title}]]</td>
+                        <td>[[${event.cinemaName}]]</td>
+                        <td>[[${event.room.name}]]</td>
+                        <td class="d-flex flex-column p-2">
+                            <div class="startTime mb-2">[[${event.start_time}]]</div>
+                            <div>[[${#temporals.format(event.start_date, 'dd-MM-yyyy')}]]</div>
+                        </td>
+                        <td>[[${ticket.createdAt}]]</td>
+                        <td>[[${ticket.seats}]]</td>
+                        <td class="p-3">
+                            <ul>
+                                <th:block th:each="bCombo : ${ticket.combos}">
+                                    <li>[[${bCombo.combo.title}]]</li>
+                                </th:block>
+                            </ul>
+                        </td>
+                        <td>[[${ticket.totalAmount}]] đồng</td>
+                        <td class="padding-3">
+                            <a class="ticket-btn" href="#" th:data-id="${ticket.id}">
+                                <i class="fa fa-file fa-2x"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:unless="${#lists.size(tickets) > 0}" class="text-center">
+                Bạn chưa mua vé nào !!
+            </div>
+
+        </div>
     </div>
-</div>
-<div th:replace = "~{client/ticket-modal :: ticket-modal}"></div>
-<div th:replace = "~{client/fragment :: footer}"></div>
-<script type="text/javascript" th:src ="@{/js/common/common.js}" ></script>
-<script type="text/javascript" th:src ="@{/js/client/ticket-history.js}" ></script>
+    <div th:replace="~{client/ticket-modal :: ticket-modal}"></div>
+    <div th:replace="~{client/fragment :: footer}"></div>
+    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
+    <script type="text/javascript" th:src="@{/js/client/ticket-history.js}"></script>
 </body>
+
 </html>

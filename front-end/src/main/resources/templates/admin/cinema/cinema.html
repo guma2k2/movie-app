@@ -19,7 +19,7 @@
                         <div class="action-search my-2 row" style="width: 350px;">
                             <label class="col-4">Select city</label>
                             <select class="col-8" id="city-list">
-                                <option value="all">All cinema</option>
+                                <option value="all">All city</option>
                                 <th:block th:each="city : ${cites}">
                                     <option th:value="${city.id}" th:text="${city.name}"></option>
                                 </th:block>

@@ -24,14 +24,13 @@ public class TicketService {
         TicketDTO ticket = new TicketDTO();
         ticket.setUserId(userId);
         ticket.setBookingId(bookingId);
-        ticket.setQrCode("uglyBoy");
         ticket.setBank(bank);
         String createTicketURL = Apis.API_CREATE_TICKET;
         HttpEntity<?> httpEntity = Utility.getHeaderWithJwtAndObject(token, ticket) ;
         HttpEntity<String> response = Utility.body(createTicketURL, HttpMethod.POST, httpEntity, String.class, session);
     }
     
-    public VNPayResponse callbackPayment(int ammount, Long bookingId, String bankCode , String token, HttpSession session) throws JwtExpirationException {
+    public VNPayResponse callbackPayment(int ammount, Long bookingId, String bankCode, String token, HttpSession session) throws JwtExpirationException {
         PaymentRequestVM request = new PaymentRequestVM(ammount, bankCode, bookingId);
         String urlCallBack = Apis.API_CALLBACK_PAYMENT;
         HttpEntity<?> httpEntity = Utility.getHeaderWithJwtAndObject(token, request) ;

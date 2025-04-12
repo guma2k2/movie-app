@@ -135,13 +135,19 @@ public class BookingController {
             // set List comboDTO to save booking
             List<ComboDTO> usedCombo= comboService.setListCombo(servletRequest);
 
+            Integer totalPriceCombo = usedCombo.stream()
+                    .mapToInt(combo -> combo.getPrice() * combo.getQuantity())
+                    .sum();
+
             // get user from session
             UserDTO user = ((JwtToken) session.getAttribute("jwtToken")).getUser();
 
 
             //save bookings
             log.info(totalPrice.toString());
-            String formattedPrice = CurrencyUtil.formatToVND(totalPrice);
+            String formattedTotalPrice = CurrencyUtil.formatToVND(totalPrice);
+            String formattedPrice = CurrencyUtil.formatToVND(totalPrice - (long)totalPriceCombo);
+            String formattedPriceCombo = CurrencyUtil.formatToVND((long)totalPriceCombo);
             BookingDTO booking = bookingService.setBooking(event, seats, totalPrice,usedCombo, user);
 
             // get booking id when create success booking
@@ -151,6 +157,8 @@ public class BookingController {
             model.addAttribute("seats" ,seats );
             model.addAttribute("totalPrice" , totalPrice);
             model.addAttribute("formattedPrice" , formattedPrice);
+            model.addAttribute("formattedTotalPrice" , formattedTotalPrice);
+            model.addAttribute("formattedPriceCombo" , formattedPriceCombo);
             model.addAttribute("bookingId" , bookingId);
             model.addAttribute("token" , jwt);
             return "client/ticket" ;
@@ -166,7 +174,5 @@ public class BookingController {
         } catch (JwtExpirationException e) {
             return "redirect:/login";
         }
-
-
     }
 }

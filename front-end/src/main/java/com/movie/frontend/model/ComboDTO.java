@@ -9,7 +9,6 @@ public class ComboDTO {
     private String description ;
     private Integer price ;
     private String img_url;
-
     private int quantity ;
 
 }

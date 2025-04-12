@@ -35,6 +35,7 @@ public class ComboService {
                 ComboDTO comboDTO = new ComboDTO();
                 comboDTO.setId(combo.getId());
                 comboDTO.setQuantity(quantity);
+                comboDTO.setPrice(combo.getPrice());
                 usedCombo.add(comboDTO);
             }
         }

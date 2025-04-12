@@ -25,8 +25,6 @@ public class Ticket {
 
     private String qrCode ;
 
-    private String phoneNumber;
-
     private String bank;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -57,8 +55,6 @@ public class Ticket {
     public void prePersist() {
         createdTime = LocalDateTime.now();
     }
-
-
 
 
 }

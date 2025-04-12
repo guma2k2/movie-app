@@ -38,7 +38,6 @@ $(document).ready(function () {
     function handleDelete(id, jwt) {
         deleteCinema(id, jwt)
             .then(function () {
-                alert("delete successful");
                 $("#confirmDialog").modal("hide");
                 cinemaIdModify = null;
                 checkCurrentCity(jwt);
@@ -74,6 +73,7 @@ $(document).ready(function () {
 
     $(".fas.fa-edit").click(function (e) {
         var cinemaId = $(this).data("id");
+        alert(cinemaId);
         console.log(cinemaId);
         $("#cinema-modal").modal("show");
         $("#update-cinema").show();
@@ -138,7 +138,6 @@ $(document).ready(function () {
             data: JSON.stringify(cinema),
             dataType: 'json',
             success: function (cinema) {
-                console.log("successful");
                 alert("successful");
                 var cinemaId = cinema.id;
                 handleSaveImages(formImage, cinemaId);
@@ -341,8 +340,6 @@ $(document).ready(function () {
     }
     function checkCurrentCity(jwt) {
         var city = $("#city-list").val();
-        //        console.log(typeof(city));
-        //        console.log(city);
         if (city === 'all') {
             handleAllCinema(jwt);
         } else {
@@ -374,11 +371,13 @@ $(document).ready(function () {
                 }
                 $(".fas.fa-edit").click(function (e) {
                     var cinemaId = $(this).data("id");
+                    alert(cinemaId);
                     console.log(cinemaId);
                     $("#cinema-modal").modal("show");
                     $("#update-cinema").show();
                     $("#add-cinema").hide();
                     $(".modal-title").text("Update cinema");
+                    $("input[name='cinemaId']").val(cinemaId);
                     setCinemaById(cinemaId, jwt);
                 })
 
@@ -387,12 +386,6 @@ $(document).ready(function () {
                     cinemaIdModify = cinemaId;
                     $('#confirmDialog').modal('show');
                     $('#modal-confirm-body').text('Do you want to delete this cinema?');
-                });
-
-                $('#btn-yes-confirm').click(function () {
-                    if (cinemaIdModify != null) {
-                        handleDelete(cinemaIdModify, jwt);
-                    }
                 });
             })
             .catch(function (error) {
@@ -486,12 +479,6 @@ $(document).ready(function () {
                     cinemaIdModify = cinemaId;
                     $('#confirmDialog').modal('show');
                     $('#modal-confirm-body').text('Do you want to delete this cinema?');
-                });
-
-                $('#btn-yes-confirm').click(function () {
-                    if (cinemaIdModify != null) {
-                        handleDelete(cinemaIdModify, jwt);
-                    }
                 });
             })
             .catch(function (error) {
