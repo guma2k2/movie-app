@@ -12,7 +12,6 @@ $(document).ready(function () {
   countdown(4, 59);
   // form-payment
   $("#btn-payment").click(function () {
-    alert("perform action");
     sendMessagePayed();
     $("#form-payment").submit();
   })

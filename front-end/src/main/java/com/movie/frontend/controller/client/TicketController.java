@@ -66,14 +66,14 @@ public class TicketController {
             Long eventId = Long.valueOf(servletRequest.getParameter("eventId"));
             Long bookingId = Long.valueOf(servletRequest.getParameter("bookingId"));
 
-            log.info(String.valueOf(eventId));
-            log.info(String.valueOf(totalPrice));
+//            log.info(String.valueOf(eventId));
+//            log.info(String.valueOf(totalPrice));
 
             if (bookingId == null) {
                 return "redirect:/booking/" + eventId ;
             }
             VNPayResponse res = ticketService.callbackPayment(totalPrice, bookingId, banking, jwt, session);
-            log.info(res.paymentUrl());
+//            log.info(res.paymentUrl());
             return "redirect:" + res.paymentUrl();
 
         } catch (HttpClientErrorException e) {

@@ -52,8 +52,8 @@ $(document).ready(function () {
 
   $('#btn-yes-confirm').click(function () {
     if (eventIdModify != null) {
-      handleDeleteEvent(eventId, jwt);
-      $('tr[data-id="' + eventId + '"]').remove();
+      handleDeleteEvent(eventIdModify, jwt);
+
     }
   });
 
@@ -389,7 +389,9 @@ $(document).ready(function () {
   function handleDeleteEvent(eventId, jwt) {
     deleteEventById(eventId, jwt)
       .then(function () {
-        alert("Delete successful");
+        $("#confirmDialog").modal("hide");
+        $('tr[data-id="' + eventIdModify + '"]').remove();
+        eventIdModify = null;
       })
       .catch(function (error) {
         console.log(error);
