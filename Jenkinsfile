@@ -16,11 +16,11 @@ pipeline {
         stage('Build Backend and Frontend') {
             steps {
                 dir('back-end') {
-                    sh 'mvn clean install -DskipTests'
+                    sh 'mvn clean install'
                 }
                 
                 dir('front-end') { // Ensure we are inside front-end directory
-                    sh 'mvn clean install -DskipTests'  // Change to npm build if necessary
+                    sh 'mvn clean install'  // Change to npm build if necessary
                 }
             }
         }
@@ -49,7 +49,7 @@ pipeline {
             steps {
                 sshagent(credentials: ['ssh-key']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@10.252.3.207 << 'EOF'
+                        ssh -o StrictHostKeyChecking=no ubuntu@192.168.1.238 << 'EOF'
 ls
 cd Documents/workspace/java-project/movie-app
 git pull
