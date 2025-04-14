@@ -49,7 +49,7 @@ pipeline {
             steps {
                 sshagent(credentials: ['ssh-key']) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@192.168.1.238 << 'EOF'
+                        ssh -o StrictHostKeyChecking=no ubuntu@10.0.2.15 << 'EOF'
 ls
 cd Documents/workspace/java-project/movie-app
 git pull
